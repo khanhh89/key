@@ -1,101 +1,151 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mua Key Hack Game</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link rel="stylesheet" href="index.css">
+  <title>Học Bảng Chữ Cái Hiragana</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+    @keyframes flip { from { transform: rotateY(90deg); opacity: 0; } to { transform: rotateY(0); opacity: 1; } }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .fade-in { animation: fadeIn 0.5s ease-in-out; }
+    .zoom-in { animation: zoomIn 0.6s ease-out; }
+    .pulse { animation: pulse 0.5s ease-in-out; }
+    .slide-in { animation: slideIn 0.4s ease-out; }
+    .bounce { animation: bounce 0.5s ease-out; }
+    .flip { animation: flip 0.6s ease-out; }
+    .bg-gradient-animate {
+      background: linear-gradient(45deg, #a3bffa, #f9a8d4, #a3e635);
+      background-size: 200% 200%;
+      animation: gradient 10s ease infinite;
+    }
+    button:hover { animation: pulse 0.5s ease-in-out; }
+  </style>
 </head>
+<body class="bg-gradient-animate min-h-screen flex items-center justify-center">
 
-<body>
-  <div class="container">
-    <h3 class="text-center mb-4"><i class="fa-solid fa-gamepad" style="margin-right: 10px;"></i>SHOP KEY GAME<i class="fa-solid fa-gamepad" style="margin-left: 10px;"></i></h3>
-    <form id="orderForm">
-      <div class="mb-3">
-        <label class="form-label"><i class="fa-solid fa-shop" style="margin-right: 10px;"></i>Game bạn muốn mua</label>
-        <select class="form-select" id="game" required>
-          <option value="">--- Select Game ---</option>
-          <option value="Liên Quân Mobile"> <i class="fa-regular fa-hand-scissors" style="margin-right: 10px;"></i> Liên Quân Mobile</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label"><i class="fa-solid fa-clock" style="margin-right: 10px;"> </i>Chọn thời hạn</label>
-        <select class="form-select" id="duration" required>
-          <option value="">--- chọn thời gian ---</option>
-          <option value="1day">1 ngày - 10.000đ</option>
-          <option value="7day">7 ngày - 40.000đ</option>
-          <option value="30day">30 ngày - 100.000đ</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label"><i class="fa-solid fa-gift" style="margin-right: 10px;"></i> Mã giảm giá (nếu có)</label>
-        <input type="text" class="form-control" id="discountCode" placeholder="Nhập mã giảm giá...">
-      </div>
-      <div class="mb-4 text-center">
-        <button type="button" class="btn btn-warning" onclick="showPaymentInfo()">Tiếp tục thanh toán</button>
-      </div>
+  <div class="container bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 zoom-in">Học Bảng Chữ Cái Hiragana</h1>
+    <div class="hiragana-char text-8xl font-bold text-blue-600 mb-4 flip" id="hiragana">あ</div>
+    <div class="romaji text-2xl text-gray-600 mb-6 fade-in" id="romaji">a</div>
 
-      <!-- Modal Bootstrap -->
-      <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content"
-            style="background-color: var(--card-bg); color: var(--text-color); border-radius: 16px;">
-            <div class="modal-header border-0">
-              <h5 class="modal-title" id="paymentModalLabel"><i class="fa-solid fa-address-card"></i> Thông tin thanh toán</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                aria-label="Đóng"></button>
-            </div>
-            <div class="modal-body">
-              <p><strong>👤 Chủ TK:</strong>DAO XUAN KHANH</p>
-              <p><strong><i class="fa-solid fa-building-user"></i> Ngân hàng:</strong> MB Bank</p>
-              <p><strong><i class="fa-solid fa-address-card"></i> STK:</strong>
-                <span id="stk">075020699999</span>
-                <button class="btn btn-sm btn-success copy-btn" onclick="copyText('075020699999'); return false;"><i class="fa-solid fa-clipboard"></i>
-                  Copy</button>
-              </p>
-              <p><strong><i class="fa-solid fa-note-sticky"></i> Nội dung:</strong>
-                <span id="note">NAP1000</span>
-                <button class="btn btn-sm btn-success copy-btn"
-                  onclick="copyText(document.getElementById('note').innerText); return false;"><i class="fa-solid fa-clipboard"></i> Copy</button>
-              </p>
-              <p><strong><i class="fa-solid fa-coins"></i> Số tiền:</strong> <span id="amount">--</span></p>
-              
-              <p><strong><i class="fa-solid fa-cart-shopping"></i> Sản phẩm:</strong> <span id="product">--</span></p>
+    <div class="flex justify-center gap-4 mb-4">
+      <button id="nextButton" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">Chữ Tiếp Theo</button>
+      <button id="quizButton" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300">Bắt Đầu Kiểm Tra</button>
+    </div>
 
-              <div style="text-align: center;">
-                <img id="qrImage" src="" alt="QR Code" style="max-width: 300px; width: 100%; margin: 10px auto;" />
-              </div>
-              <div class="mt-3 text-center">
-                <a href="https://your-payment-link.com" target="_blank" class="btn btn-success">
-                  💸 Mở trang thanh toán
-                </a>
-              </div>
-
-              <div class="mt-3 text-center">
-                <button type="button" class="btn btn-primary" onclick="confirmPayment()"><i class="fa-solid fa-check"></i> Tôi đã thanh toán</button>
-              </div>
-
-              <div class="mt-3 text-center">
-                <button type="button" class="btn btn-primary" id="confirmBtn" onclick="confirmPayment()"><i class="fa-solid fa-check"></i> Xác nhận giao
-                  dịch thành công</button>
-              </div>
-
-              <div id="resultBox" class="mt-3 text-center"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </form>
+    <div class="quiz-section hidden mt-6" id="quizSection">
+      <h2 class="text-xl font-semibold text-gray-700 mb-2 fade-in">Đoán âm đọc của chữ:</h2>
+      <div class="text-6xl text-blue-600 mb-2 zoom-in" id="quizHiragana"></div>
+      <div class="quiz-options grid grid-cols-2 gap-4" id="quizOptions"></div>
+      <div id="result" class="text-lg font-medium mt-3"></div>
+      <div class="mt-2 text-sm text-gray-600">Điểm: <span id="score">0</span></div>
+    </div>
   </div>
 
-  <script src="index.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Âm thanh -->
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/20/audio_6a96c9187e.mp3" type="audio/mp3">
+  </audio>
+  <audio id="correctSound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5e987e6e08.mp3" type="audio/mp3">
+  </audio>
+  <audio id="wrongSound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_48b47db313.mp3" type="audio/mp3">
+  </audio>
 
+  <script>
+    const hiraganaData = [
+      { char: 'あ', romaji: 'a' }, { char: 'い', romaji: 'i' }, { char: 'う', romaji: 'u' }, { char: 'え', romaji: 'e' }, { char: 'お', romaji: 'o' },
+      { char: 'か', romaji: 'ka' }, { char: 'き', romaji: 'ki' }, { char: 'く', romaji: 'ku' }, { char: 'け', romaji: 'ke' }, { char: 'こ', romaji: 'ko' },
+      { char: 'さ', romaji: 'sa' }, { char: 'し', romaji: 'shi' }, { char: 'す', romaji: 'su' }, { char: 'せ', romaji: 'se' }, { char: 'そ', romaji: 'so' },
+      { char: 'た', romaji: 'ta' }, { char: 'ち', romaji: 'chi' }, { char: 'つ', romaji: 'tsu' }, { char: 'て', romaji: 'te' }, { char: 'と', romaji: 'to' },
+      { char: 'な', romaji: 'na' }, { char: 'に', romaji: 'ni' }, { char: 'ぬ', romaji: 'nu' }, { char: 'ね', romaji: 'ne' }, { char: 'の', romaji: 'no' },
+      { char: 'は', romaji: 'ha' }, { char: 'ひ', romaji: 'hi' }, { char: 'ふ', romaji: 'fu' }, { char: 'へ', romaji: 'he' }, { char: 'ほ', romaji: 'ho' },
+      { char: 'ま', romaji: 'ma' }, { char: 'み', romaji: 'mi' }, { char: 'む', romaji: 'mu' }, { char: 'め', romaji: 'me' }, { char: 'も', romaji: 'mo' },
+      { char: 'や', romaji: 'ya' }, { char: 'ゆ', romaji: 'yu' }, { char: 'よ', romaji: 'yo' },
+      { char: 'ら', romaji: 'ra' }, { char: 'り', romaji: 'ri' }, { char: 'る', romaji: 'ru' }, { char: 'れ', romaji: 're' }, { char: 'ろ', romaji: 'ro' },
+      { char: 'わ', romaji: 'wa' }, { char: 'を', romaji: 'wo' }, { char: 'ん', romaji: 'n' }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+
+    const bgMusic = document.getElementById("bgMusic");
+    const correctSound = document.getElementById("correctSound");
+    const wrongSound = document.getElementById("wrongSound");
+
+    function nextHiragana() {
+      currentIndex = (currentIndex + 1) % hiraganaData.length;
+      const hiragana = document.getElementById("hiragana");
+      const romaji = document.getElementById("romaji");
+      hiragana.textContent = hiraganaData[currentIndex].char;
+      romaji.textContent = hiraganaData[currentIndex].romaji;
+      hiragana.classList.add("flip");
+      setTimeout(() => hiragana.classList.remove("flip"), 600);
+    }
+
+    function startQuiz() {
+      document.getElementById("quizSection").classList.remove("hidden");
+      bgMusic.play().catch(() => {}); // Bắt lỗi nếu trình duyệt chặn autoplay
+      generateQuiz();
+    }
+
+    function generateQuiz() {
+      const randomIndex = Math.floor(Math.random() * hiraganaData.length);
+      const quizChar = hiraganaData[randomIndex];
+      const quizHiragana = document.getElementById("quizHiragana");
+      quizHiragana.textContent = quizChar.char;
+
+      const correctAnswer = quizChar.romaji;
+      let options = [correctAnswer];
+
+      while (options.length < 4) {
+        const randomRomaji = hiraganaData[Math.floor(Math.random() * hiraganaData.length)].romaji;
+        if (!options.includes(randomRomaji)) options.push(randomRomaji);
+      }
+
+      options = options.sort(() => Math.random() - 0.5);
+
+      const quizOptions = document.getElementById("quizOptions");
+      quizOptions.innerHTML = '';
+      options.forEach((option, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.className = "bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200 slide-in";
+        btn.style.animationDelay = `${i * 0.1}s`;
+        btn.onclick = () => checkAnswer(option, correctAnswer);
+        quizOptions.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, correct) {
+      const result = document.getElementById("result");
+      if (selected === correct) {
+        correctSound.play();
+        result.textContent = "🎉 Đúng!";
+        result.className = "text-green-600 text-lg font-medium mt-3 bounce";
+        score++;
+      } else {
+        wrongSound.play();
+        result.textContent = `❌ Sai! Đáp án đúng là: ${correct}`;
+        result.className = "text-red-600 text-lg font-medium mt-3 bounce";
+      }
+      document.getElementById("score").textContent = score;
+      setTimeout(generateQuiz, 1000);
+    }
+
+    document.getElementById("nextButton").addEventListener("click", nextHiragana);
+    document.getElementById("quizButton").addEventListener("click", startQuiz);
+  </script>
 </body>
-
 </html>
