@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lấy Key Game Hàng Ngày</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
       min-height: 100vh;
@@ -31,9 +27,7 @@
       width: 90%;
       transition: transform 0.3s ease;
     }
-    .container:hover {
-      transform: translateY(-10px);
-    }
+    .container:hover { transform: translateY(-10px); }
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
@@ -123,47 +117,48 @@
     </div>
     <div id="copiedMsg">Đã copy key!</div>
   </div>
+
   <script>
-    // Cấu hình SheetDB API
-    const SHEETDB_API = 'https://sheetdb.io/api/v1/tvmy9ezg0xkh9'; // Endpoint bạn cung cấp
+    const SHEETDB_API = 'https://sheetdb.io/api/v1/tvmy9ezg0xkh9';
+
+    function getTodayString() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
 
     async function fetchKeysFromSheet() {
       try {
         const response = await fetch(SHEETDB_API);
         const data = await response.json();
-        console.log('Dữ liệu từ SheetDB:', data);
-        // SheetDB trả về mảng đối tượng, lấy giá trị cột A
-        return data.map(row => row.A).filter(key => key); // Lọc bỏ ô trống
+        console.log('📦 Dữ liệu từ SheetDB:', data);
+        return data.map(row => row.A).filter(key => key);
       } catch (error) {
-        console.error('Lỗi lấy key từ SheetDB:', error);
+        console.error('❌ Lỗi lấy key từ SheetDB:', error);
         return null;
       }
     }
 
     async function getDailyKey() {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getTodayString();
       const storedDate = localStorage.getItem('keyDate');
       const storedKey = localStorage.getItem('dailyKey');
 
-      // Nếu ngày hiện tại khớp và có key lưu trữ, trả về key đó
-      if (storedDate === today && storedKey) {
-        return storedKey;
-      }
+      if (storedDate === today && storedKey) return storedKey;
 
-      // Lấy key từ SheetDB
       const keyList = await fetchKeysFromSheet();
-      if (!keyList || keyList.length === 0) {
-        return 'Lỗi: Không lấy được key';
-      }
+      if (!keyList || keyList.length === 0) return 'Không lấy được key';
 
-      // Tính chỉ số key dựa trên ngày
       const startDate = new Date('2025-07-01');
       const currentDate = new Date(today);
       const dayDiff = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-      const keyIndex = dayDiff % keyList.length; // Lặp lại danh sách key
+      const keyIndex = dayDiff % keyList.length;
       const newKey = keyList[keyIndex] || 'Không có key';
 
-      // Lưu key và ngày vào localStorage
+      console.log('📅 Ngày:', today, '| 🔢 Chênh lệch:', dayDiff, '| 🗝️ Key:', newKey);
+
       localStorage.setItem('keyDate', today);
       localStorage.setItem('dailyKey', newKey);
       return newKey;
@@ -186,19 +181,36 @@
         alert('Key chưa sẵn sàng! Vui lòng thử lại sau.');
         return;
       }
-      navigator.clipboard.writeText(key)
-        .then(() => {
-          const msg = document.getElementById('copiedMsg');
-          msg.style.display = 'block';
-          setTimeout(() => msg.style.display = 'none', 2000);
-        })
-        .catch(err => {
-          console.error('Lỗi sao chép key:', err);
-          alert('Không thể sao chép key! Vui lòng thử lại.');
-        });
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key)
+          .then(showCopiedMsg)
+          .catch(() => fallbackCopy(key));
+      } else {
+        fallbackCopy(key);
+      }
     }
 
-    // Cập nhật key khi tải trang
+    function fallbackCopy(text) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showCopiedMsg();
+      } catch (err) {
+        alert('Không thể sao chép key!');
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    function showCopiedMsg() {
+      const msg = document.getElementById('copiedMsg');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 2000);
+    }
+
     updateKeyDisplay();
   </script>
 </body>
