@@ -1,205 +1,233 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lấy Key Game Hàng Ngày</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #1e1e2f, #2a2a4e);
-      color: #fff;
-      overflow: hidden;
-    }
-    .container {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      max-width: 500px;
-      width: 90%;
-      transition: transform 0.3s ease;
-    }
-    .container:hover { transform: translateY(-10px); }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #00ffcc;
-      text-shadow: 0 0 10px #00ffcc;
-    }
-    .key-date {
-      font-size: 0.9rem;
-      color: #cccccc;
-      margin-bottom: 1.5rem;
-    }
-    .key-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-      border: 1px solid #00ffcc;
-    }
-    #keyText {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 2px;
-    }
-    .envelope {
-      cursor: pointer;
-      font-size: 2rem;
-      color: #00ffcc;
-      transition: transform 0.3s ease, color 0.3s ease;
-    }
-    .envelope:hover {
-      color: #00cc99;
-      transform: scale(1.3) rotate(5deg);
-    }
-    #copiedMsg {
-      display: none;
-      margin-top: 1.5rem;
-      padding: 0.8rem;
-      background: #28a745;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 500;
-      animation: fadeInOut 2s ease-in-out;
-      box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
-    }
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translateY(10px); }
-      10% { opacity: 1; transform: translateY(0); }
-      90% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(10px); }
-    }
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
-      animation: pulse 10s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.3; }
-      50% { transform: scale(1.2); opacity: 0.5; }
-      100% { transform: scale(1); opacity: 0.3; }
-    }
-    @media (max-width: 600px) {
-      h1 { font-size: 1.5rem; }
-      #keyText { font-size: 1rem; }
-      .envelope { font-size: 1.5rem; }
-      .container { padding: 1.5rem; }
-    }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lấy Key Game Hàng Ngày</title>
+  <style>
+    /* CSS của bạn (không thay đổi) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e1e2f, #2a2a4e);
+      color: #fff;
+      overflow: hidden;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      transition: transform 0.3s ease;
+    }
+    .container:hover { transform: translateY(-10px); }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+    .key-date {
+      font-size: 0.9rem;
+      color: #cccccc;
+      margin-bottom: 1.5rem;
+    }
+    .key-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      border: 1px solid #00ffcc;
+    }
+    #keyText {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    .envelope {
+      cursor: pointer;
+      font-size: 2rem;
+      color: #00ffcc;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .envelope:hover {
+      color: #00cc99;
+      transform: scale(1.3) rotate(5deg);
+    }
+    #copiedMsg {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 0.8rem;
+      background: #28a745;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      animation: fadeInOut 2s ease-in-out;
+      box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(10px); }
+      10% { opacity: 1; transform: translateY(0); }
+      90% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(10px); }
+    }
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      animation: pulse 10s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 0.3; }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      #keyText { font-size: 1rem; }
+      .envelope { font-size: 1.5rem; }
+      .container { padding: 1.5rem; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="bg-animation"></div>
-  <div class="container">
-    <h1>Lấy Key Game Hàng Ngày</h1>
-    <div class="key-date" id="keyDate">Đang tải...</div>
-    <div class="key-container">
-      <span id="keyText">Đang tải...</span>
-      <span class="envelope" onclick="copyKey()">✉️</span>
-    </div>
-    <div id="copiedMsg">Đã copy key!</div>
-  </div>
+  <div class="bg-animation"></div>
+  <div class="container">
+    <h1>Lấy Key Game Hàng Ngày</h1>
+    <div class="key-date" id="keyDate">Đang tải...</div>
+    <div class="key-container">
+      <span id="keyText">Đang tải...</span>
+      <span class="envelope" onclick="copyKey()">✉️</span>
+    </div>
+    <div id="copiedMsg">Đã copy key!</div>
+  </div>
 
-  <script>
-      const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec";
+  <script>
+    // *******************************************************************
+    // ĐÂY LÀ URL ĐẾN GOOGLE APPS SCRIPT WEB APP CỦA BẠN
+    // Đảm bảo URL này là chính xác từ triển khai Web App của bạn
+    // (Từ "Deploy" -> "Manage deployments" -> Sao chép URL Web App)
+    // URL hiện tại bạn đã cung cấp:
+    const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec";
+    // *******************************************************************
 
+    // Hàm để lấy chuỗi ngày hiện tại định dạng YYYY-MM-DD
+    // Giúp so sánh chính xác với trường 'date' trong JSON từ Google Script
     function getTodayStringFormattedForSheet() {
       const today = new Date();
       return today.toISOString().split('T')[0]; // Ví dụ: "2025-07-09"
     }
 
-    async function getDailyKeyFromScript() { // Tên hàm đã được đổi cho rõ ràng
+    // Hàm chính để lấy key hàng ngày từ Google Apps Script
+    async function getDailyKeyFromScript() {
       try {
         // Thêm một tham số ngẫu nhiên vào URL để tránh cache của trình duyệt
+        // Đảm bảo luôn lấy dữ liệu mới nhất
         const urlWithCacheBuster = `${GOOGLE_SCRIPT_WEB_APP_URL}?_t=${new Date().getTime()}`;
+        
+        // Thực hiện yêu cầu fetch đến Google Apps Script
         const response = await fetch(urlWithCacheBuster);
 
+        // Kiểm tra xem phản hồi HTTP có thành công không (mã 2xx)
         if (!response.ok) {
           console.error('Lỗi HTTP khi tải dữ liệu từ Google Script:', response.status, response.statusText);
-          return 'Không tải được key (Lỗi máy chủ)';
+          return 'Không tải được key (Lỗi máy chủ)'; // Thông báo lỗi rõ ràng hơn
         }
 
-        const data = await response.json(); // Phân tích cú pháp JSON
-        const todayString = getTodayStringFormattedForSheet(); // Lấy ngày hôm nay theo định dạng YYYY-MM-DD
+        // Phân tích cú pháp phản hồi thành đối tượng JSON
+        const data = await response.json(); 
+        const todayString = getTodayStringFormattedForSheet(); // Lấy ngày hôm nay định dạng YYYY-MM-DD
 
+        // Kiểm tra cấu trúc JSON và xem ngày có khớp không
         if (data && data.date && data.date === todayString) {
-          if (data.key !== null) {
-            return data.key;
+          if (data.key !== null) { // Nếu trường 'key' không phải là null
+            return data.key; // Trả về giá trị key
           } else {
-            return 'Key hôm nay chưa được cập nhật';
+            return 'Key hôm nay chưa được cập nhật'; // Key là null, nghĩa là chưa có key cho ngày này trong Sheet
           }
         } else {
-          console.warn('JSON từ script không chứa key hợp lệ cho ngày hôm nay hoặc cấu trúc không đúng.');
-          return 'Key hôm nay chưa được cập nhật';
+          // Trường hợp: JSON không có trường 'date', hoặc 'date' không khớp với ngày hôm nay, hoặc data không hợp lệ
+          console.warn('JSON từ script không chứa key hợp lệ cho ngày hôm nay hoặc cấu trúc không đúng:', data);
+          return 'Key hôm nay chưa được cập nhật'; // Thông báo chung cho các trường hợp không tìm thấy
         }
       } catch (err) {
+        // Xử lý lỗi trong quá trình fetch hoặc phân tích cú pháp JSON
         console.error('❌ Lỗi đọc hoặc phân tích cú pháp JSON từ Google Script:', err);
-        return 'Không tải được key';
+        return 'Không tải được key'; // Thông báo lỗi chung cho người dùng
       }
     }
 
-    function updateKeyDisplay() {
-      getDailyKeyFromJSON().then(key => {
-        document.getElementById('keyText').textContent = key;
-        document.getElementById('keyDate').textContent = `Key ngày: ${new Date().toLocaleDateString('vi-VN')}`;
-      });
-    }
+    // Hàm cập nhật hiển thị key và ngày lên giao diện
+    function updateKeyDisplay() {
+      // Hiển thị ngày hiện tại bằng ngôn ngữ địa phương (ví dụ: "9/7/2025")
+      document.getElementById('keyDate').textContent = `Key ngày: ${new Date().toLocaleDateString('vi-VN')}`;
 
-    function copyKey() {
-      const key = document.getElementById('keyText').textContent.trim();
-      if (key === 'Đang tải...' || key === 'Lỗi tải key' || key === 'Key hôm nay chưa được cập nhật') {
-        alert('Key chưa sẵn sàng! Vui lòng thử lại sau.');
-        return;
-      }
+      // Gọi hàm lấy key và cập nhật nội dung
+      getDailyKeyFromScript().then(key => {
+        document.getElementById('keyText').textContent = key;
+      });
+    }
 
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(key)
-          .then(showCopiedMsg)
-          .catch(() => fallbackCopy(key));
-      } else {
-        fallbackCopy(key);
-      }
-    }
+    // Hàm sao chép key vào clipboard
+    function copyKey() {
+      const key = document.getElementById('keyText').textContent.trim();
+      // Ngăn không cho copy các thông báo lỗi hoặc trạng thái
+      if (key === 'Đang tải...' || key.includes('Không tải được key') || key.includes('Key hôm nay chưa được cập nhật')) {
+        alert('Key chưa sẵn sàng hoặc không hợp lệ để sao chép!');
+        return;
+      }
 
-    function fallbackCopy(text) {
-      const tempInput = document.createElement('textarea');
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      try {
-        document.execCommand('copy');
-        showCopiedMsg();
-      } catch (err) {
-        alert('Không thể sao chép key!');
-      }
-      document.body.removeChild(tempInput);
-    }
+      // Sử dụng Clipboard API hiện đại
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key)
+          .then(showCopiedMsg) // Hiển thị thông báo đã copy nếu thành công
+          .catch(() => fallbackCopy(key)); // Dùng cách cũ nếu có lỗi
+      } else {
+        fallbackCopy(key); // Dùng cách cũ nếu API không được hỗ trợ
+      }
+    }
 
-    function showCopiedMsg() {
-      const msg = document.getElementById('copiedMsg');
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 2000);
-    }
+    // Hàm sao chép dự phòng cho các trình duyệt cũ hơn
+    function fallbackCopy(text) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showCopiedMsg();
+      } catch (err) {
+        alert('Không thể sao chép key!');
+      }
+      document.body.removeChild(tempInput);
+    }
 
-    updateKeyDisplay();
-  </script>
+    // Hàm hiển thị thông báo "Đã copy key!"
+    function showCopiedMsg() {
+      const msg = document.getElementById('copiedMsg');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 2000); // Tự động ẩn sau 2 giây
+    }
+
+    // Gọi hàm này khi trang HTML được tải hoàn tất
+    updateKeyDisplay();
+  </script>
 </body>
 </html>
