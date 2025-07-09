@@ -119,29 +119,42 @@
   </div>
 
   <script>
-   const JSON_KEY_URL = "https://raw.githubusercontent.com/khanhh89/key/main/Key.json";
+      const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec";
 
-    function getTodayString() {
-      const today = new Date();
-      return today.toISOString().split('T')[0];
-    }
+    function getTodayStringFormattedForSheet() {
+      const today = new Date();
+      return today.toISOString().split('T')[0]; // Ví dụ: "2025-07-09"
+    }
 
-    async function getDailyKeyFromJSON() {
-      try {
-        const response = await fetch(JSON_KEY_URL, { cache: "no-store" });
-        const data = await response.json();
-        const today = getTodayString();
+    async function getDailyKeyFromScript() { // Tên hàm đã được đổi cho rõ ràng
+      try {
+        // Thêm một tham số ngẫu nhiên vào URL để tránh cache của trình duyệt
+        const urlWithCacheBuster = `${GOOGLE_SCRIPT_WEB_APP_URL}?_t=${new Date().getTime()}`;
+        const response = await fetch(urlWithCacheBuster);
 
-        if (data.date === today) {
-          return data.key;
-        } else {
-          return 'Key hôm nay chưa được cập nhật';
-        }
-      } catch (err) {
-        console.error('❌ Lỗi đọc file JSON:', err);
-        return 'Không tải được key';
-      }
-    }
+        if (!response.ok) {
+          console.error('Lỗi HTTP khi tải dữ liệu từ Google Script:', response.status, response.statusText);
+          return 'Không tải được key (Lỗi máy chủ)';
+        }
+
+        const data = await response.json(); // Phân tích cú pháp JSON
+        const todayString = getTodayStringFormattedForSheet(); // Lấy ngày hôm nay theo định dạng YYYY-MM-DD
+
+        if (data && data.date && data.date === todayString) {
+          if (data.key !== null) {
+            return data.key;
+          } else {
+            return 'Key hôm nay chưa được cập nhật';
+          }
+        } else {
+          console.warn('JSON từ script không chứa key hợp lệ cho ngày hôm nay hoặc cấu trúc không đúng.');
+          return 'Key hôm nay chưa được cập nhật';
+        }
+      } catch (err) {
+        console.error('❌ Lỗi đọc hoặc phân tích cú pháp JSON từ Google Script:', err);
+        return 'Không tải được key';
+      }
+    }
 
     function updateKeyDisplay() {
       getDailyKeyFromJSON().then(key => {
