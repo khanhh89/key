@@ -119,101 +119,74 @@
   </div>
 
   <script>
-  const SHEETDB_API = 'https://sheetdb.io/api/v1/tvmy9ezg0xkh9';
+    const JSON_KEY_URL = 'https://khanhh89.github.io/key-today/key.json';
 
-  function getTodayString() {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  async function fetchKeysFromSheet() {
-    try {
-      const response = await fetch(SHEETDB_API);
-      const data = await response.json();
-      console.log('📦 Dữ liệu từ SheetDB:', data);
-      return data.map(row => row['abc123xyz']).filter(key => key); // ✅ Sửa đúng tên cột
-    } catch (error) {
-      console.error('❌ Lỗi lấy key từ SheetDB:', error);
-      return null;
-    }
-  }
-
-  async function getDailyKey() {
-    const today = getTodayString();
-    const storedDate = localStorage.getItem('keyDate');
-    const storedKey = localStorage.getItem('dailyKey');
-
-    if (storedDate === today && storedKey) return storedKey;
-
-    const keyList = await fetchKeysFromSheet();
-    if (!keyList || keyList.length === 0) return 'Không lấy được key';
-
-    const startDate = new Date('2025-07-01');
-    const currentDate = new Date(today);
-    const dayDiff = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-    const keyIndex = dayDiff % keyList.length;
-    const newKey = keyList[keyIndex] || 'Không có key';
-
-    console.log('📅 Ngày:', today, '| 🔢 Chênh lệch:', dayDiff, '| 🗝️ Key:', newKey);
-
-    localStorage.setItem('keyDate', today);
-    localStorage.setItem('dailyKey', newKey);
-    return newKey;
-  }
-
-  function updateKeyDisplay() {
-    getDailyKey().then(key => {
-      document.getElementById('keyText').textContent = key;
-      document.getElementById('keyDate').textContent = `Key ngày: ${new Date().toLocaleDateString('vi-VN')}`;
-    }).catch(err => {
-      console.error('Lỗi hiển thị key:', err);
-      document.getElementById('keyText').textContent = 'Lỗi tải key';
-      document.getElementById('keyDate').textContent = 'Không thể tải key';
-    });
-  }
-
-  function copyKey() {
-    const key = document.getElementById('keyText').textContent.trim();
-    if (key === 'Đang tải...' || key === 'Lỗi tải key') {
-      alert('Key chưa sẵn sàng! Vui lòng thử lại sau.');
-      return;
+    function getTodayString() {
+      const today = new Date();
+      return today.toISOString().split('T')[0];
     }
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(key)
-        .then(showCopiedMsg)
-        .catch(() => fallbackCopy(key));
-    } else {
-      fallbackCopy(key);
+    async function getDailyKeyFromJSON() {
+      try {
+        const response = await fetch(JSON_KEY_URL, { cache: "no-store" });
+        const data = await response.json();
+        const today = getTodayString();
+
+        if (data.date === today) {
+          return data.key;
+        } else {
+          return 'Key hôm nay chưa được cập nhật';
+        }
+      } catch (err) {
+        console.error('❌ Lỗi đọc file JSON:', err);
+        return 'Không tải được key';
+      }
     }
-  }
 
-  function fallbackCopy(text) {
-    const tempInput = document.createElement('textarea');
-    tempInput.value = text;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    try {
-      document.execCommand('copy');
-      showCopiedMsg();
-    } catch (err) {
-      alert('Không thể sao chép key!');
+    function updateKeyDisplay() {
+      getDailyKeyFromJSON().then(key => {
+        document.getElementById('keyText').textContent = key;
+        document.getElementById('keyDate').textContent = `Key ngày: ${new Date().toLocaleDateString('vi-VN')}`;
+      });
     }
-    document.body.removeChild(tempInput);
-  }
 
-  function showCopiedMsg() {
-    const msg = document.getElementById('copiedMsg');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 2000);
-  }
+    function copyKey() {
+      const key = document.getElementById('keyText').textContent.trim();
+      if (key === 'Đang tải...' || key === 'Lỗi tải key' || key === 'Key hôm nay chưa được cập nhật') {
+        alert('Key chưa sẵn sàng! Vui lòng thử lại sau.');
+        return;
+      }
 
-  // Gọi khi tải trang
-  updateKeyDisplay();
-</script>
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key)
+          .then(showCopiedMsg)
+          .catch(() => fallbackCopy(key));
+      } else {
+        fallbackCopy(key);
+      }
+    }
 
+    function fallbackCopy(text) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showCopiedMsg();
+      } catch (err) {
+        alert('Không thể sao chép key!');
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    function showCopiedMsg() {
+      const msg = document.getElementById('copiedMsg');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 2000);
+    }
+
+    updateKeyDisplay();
+  </script>
 </body>
 </html>
