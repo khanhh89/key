@@ -1,36 +1,28 @@
-name: Update Daily Game Key
-
+name: Update Keys from Google Sheets
 on:
   schedule:
-    - cron: "0 0 * * *"  # Mỗi ngày 0h UTC (7h sáng VN)
+    - cron: '0 * * * *'  # Chạy hàng giờ
   workflow_dispatch:
 
 jobs:
-  update-key:
+  update:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-    - name: Gọi SheetDB và tạo key.json
-      run: |
-        curl -s https://sheetdb.io/api/v1/tvmy9ezg0xkh9 > keys.json
-        START_DATE="2025-07-01"
-        TODAY=$(date +%F)
-        DAYS=$(( ($(date -d "$TODAY" +%s) - $(date -d "$START_DATE" +%s)) / 86400 ))
-        KEY=$(jq -r ".[$DAYS].abc123xyz" keys.json)
+      - name: Fetch data from Google Script
+        run: |
+          curl -o keys.json "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec"
+          # Kiểm tra dữ liệu
+          cat keys.json
 
-        if [[ -z "$KEY" || "$KEY" == "null" ]]; then
-          echo "Không tìm thấy key tại vị trí $DAYS"
-          exit 1
-        fi
-
-        echo "{ \"date\": \"$TODAY\", \"key\": \"$KEY\" }" > key.json
-
-    - name: Commit and push
-      run: |
-        git config user.name "KeyBot"
-        git config user.email "keybot@github.com"
-        git add key.json
-        git commit -m "🔄 Cập nhật key ngày $(date +%F)"
-        git push
+      - name: Commit and Push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add keys.json
+          git commit -m "Auto-update keys from Google Sheets"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
