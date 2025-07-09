@@ -131,6 +131,7 @@
       try {
         const response = await fetch(SHEETDB_API);
         const data = await response.json();
+        console.log('Dữ liệu từ SheetDB:', data);
         // SheetDB trả về mảng đối tượng, lấy giá trị cột A
         return data.map(row => row.A).filter(key => key); // Lọc bỏ ô trống
       } catch (error) {
