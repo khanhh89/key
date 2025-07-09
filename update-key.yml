@@ -1,76 +1,10 @@
-name: Update Keys from Google Sheets
-
-on:
-  schedule:
-    - cron: '0 * * * *'  # Chạy hàng giờ (phù hợp với việc kiểm tra key theo ngày nếu bạn muốn)
-  workflow_dispatch: # Cho phép chạy thủ công từ GitHub UI
-
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Fetch data from Google Script
-        id: fetch_data # Thêm ID để tham chiếu đầu ra từ bước này
-        run: |
-          # Sử dụng curl -f để thất bại nếu HTTP response code không phải 2xx
-          # Sử dụng --retry 5 để thử lại nếu có lỗi mạng tạm thời
-          response=$(curl -f --retry 5 -o keys_temp.json "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec" 2>&1)
-          
-          # Kiểm tra xem curl có thành công không
-          if [ $? -ne 0 ]; then
-            echo "::error::Failed to fetch data from Google Script: $response"
-            exit 1 # Thoát với lỗi
-          fi
-
-          # Kiểm tra xem tệp keys_temp.json có rỗng không (ví dụ: Google Script trả về phản hồi không hợp lệ)
-          if [ ! -s keys_temp.json ]; then
-            echo "::error::Received empty or invalid JSON from Google Script."
-            rm keys_temp.json # Xóa tệp rỗng/hỏng
-            exit 1 # Thoát với lỗi
-          fi
-
-          # Đọc nội dung JSON và lưu vào biến môi trường để các bước sau có thể truy cập
-          # Điều này hữu ích nếu bạn muốn kiểm tra giá trị 'key' trước khi ghi đè
-          # Ví dụ: kiểm tra xem 'key' có phải là null không
-          JSON_CONTENT=$(cat keys_temp.json)
-          echo "JSON_CONTENT=$JSON_CONTENT" >> "$GITHUB_OUTPUT"
-          
-          # Di chuyển tệp tạm thời sang tệp cuối cùng chỉ khi mọi thứ đều ổn
-          mv keys_temp.json keys.json
-
-          # In ra nội dung để dễ gỡ lỗi
-          cat keys.json
-
-      - name: Process and Commit if Data Changed
-        # Chỉ chạy bước này nếu bước 'fetch_data' thành công
-        if: success()
-        run: |
-          # Đọc giá trị 'key' từ JSON vừa tải về
-          # Sử dụng jq để phân tích cú pháp JSON. GitHub Actions runner đã cài đặt jq.
-          # Nếu bạn chỉ muốn lưu key, bạn có thể chỉnh sửa phần này.
-          # Ở đây chúng ta kiểm tra xem nội dung của keys.json đã thay đổi so với phiên bản hiện có trong repo chưa
-          
-          # Đọc nội dung hiện tại của keys.json trong repo (nếu có)
-          OLD_CONTENT=""
-          if [ -f keys.json ]; then
-            OLD_CONTENT=$(git show HEAD:keys.json 2>/dev/null || true)
-          fi
-
-          NEW_CONTENT=$(cat keys.json)
-
-          if [ "$OLD_CONTENT" = "$NEW_CONTENT" ]; then
-            echo "Keys.json content has not changed. Skipping commit."
-            exit 0 # Không có gì để commit, thoát thành công
-          else
-            echo "Keys.json content has changed. Committing updates."
-            git config --global user.name "GitHub Actions"
-            git config --global user.email "actions@github.com"
-            git add keys.json
-            git commit -m "Auto-update keys from Google Sheets"
-            git push
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+- name: DEBUG: Force Commit Data
+  # TẠM THỜI bỏ qua 'if: success()'
+  run: |
+    git config --global user.name "GitHub Actions"
+    git config --global user.email "actions@github.com"
+    git add keys.json
+    git commit -m "DEBUG: Force update keys from Google Sheets" || true # || true để không thất bại nếu không có gì để commit
+    git push
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
