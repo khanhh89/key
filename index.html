@@ -1,151 +1,204 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Học Bảng Chữ Cái Hiragana</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lấy Key Game Hàng Ngày</title>
   <style>
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-    @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-    @keyframes flip { from { transform: rotateY(90deg); opacity: 0; } to { transform: rotateY(0); opacity: 1; } }
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .fade-in { animation: fadeIn 0.5s ease-in-out; }
-    .zoom-in { animation: zoomIn 0.6s ease-out; }
-    .pulse { animation: pulse 0.5s ease-in-out; }
-    .slide-in { animation: slideIn 0.4s ease-out; }
-    .bounce { animation: bounce 0.5s ease-out; }
-    .flip { animation: flip 0.6s ease-out; }
-    .bg-gradient-animate {
-      background: linear-gradient(45deg, #a3bffa, #f9a8d4, #a3e635);
-      background-size: 200% 200%;
-      animation: gradient 10s ease infinite;
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e1e2f, #2a2a4e);
+      color: #fff;
+      overflow: hidden;
     }
-    button:hover { animation: pulse 0.5s ease-in-out; }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      transition: transform 0.3s ease;
+    }
+    .container:hover {
+      transform: translateY(-10px);
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+    .key-date {
+      font-size: 0.9rem;
+      color: #cccccc;
+      margin-bottom: 1.5rem;
+    }
+    .key-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      border: 1px solid #00ffcc;
+    }
+    #keyText {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    .envelope {
+      cursor: pointer;
+      font-size: 2rem;
+      color: #00ffcc;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .envelope:hover {
+      color: #00cc99;
+      transform: scale(1.3) rotate(5deg);
+    }
+    #copiedMsg {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 0.8rem;
+      background: #28a745;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      animation: fadeInOut 2s ease-in-out;
+      box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(10px); }
+      10% { opacity: 1; transform: translateY(0); }
+      90% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(10px); }
+    }
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      animation: pulse 10s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 0.3; }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      #keyText { font-size: 1rem; }
+      .envelope { font-size: 1.5rem; }
+      .container { padding: 1.5rem; }
+    }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gradient-animate min-h-screen flex items-center justify-center">
-
-  <div class="container bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full text-center">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6 zoom-in">Học Bảng Chữ Cái Hiragana</h1>
-    <div class="hiragana-char text-8xl font-bold text-blue-600 mb-4 flip" id="hiragana">あ</div>
-    <div class="romaji text-2xl text-gray-600 mb-6 fade-in" id="romaji">a</div>
-
-    <div class="flex justify-center gap-4 mb-4">
-      <button id="nextButton" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">Chữ Tiếp Theo</button>
-      <button id="quizButton" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300">Bắt Đầu Kiểm Tra</button>
+<body>
+  <div class="bg-animation"></div>
+  <div class="container">
+    <h1>Lấy Key Game Hàng Ngày</h1>
+    <div class="key-date" id="keyDate">Đang tải...</div>
+    <div class="key-container">
+      <span id="keyText">Đang tải...</span>
+      <span class="envelope" onclick="copyKey()">✉️</span>
     </div>
-
-    <div class="quiz-section hidden mt-6" id="quizSection">
-      <h2 class="text-xl font-semibold text-gray-700 mb-2 fade-in">Đoán âm đọc của chữ:</h2>
-      <div class="text-6xl text-blue-600 mb-2 zoom-in" id="quizHiragana"></div>
-      <div class="quiz-options grid grid-cols-2 gap-4" id="quizOptions"></div>
-      <div id="result" class="text-lg font-medium mt-3"></div>
-      <div class="mt-2 text-sm text-gray-600">Điểm: <span id="score">0</span></div>
-    </div>
+    <div id="copiedMsg">Đã copy key!</div>
   </div>
-
-  <!-- Âm thanh -->
-  <audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/10/20/audio_6a96c9187e.mp3" type="audio/mp3">
-  </audio>
-  <audio id="correctSound">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5e987e6e08.mp3" type="audio/mp3">
-  </audio>
-  <audio id="wrongSound">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_48b47db313.mp3" type="audio/mp3">
-  </audio>
-
   <script>
-    const hiraganaData = [
-      { char: 'あ', romaji: 'a' }, { char: 'い', romaji: 'i' }, { char: 'う', romaji: 'u' }, { char: 'え', romaji: 'e' }, { char: 'お', romaji: 'o' },
-      { char: 'か', romaji: 'ka' }, { char: 'き', romaji: 'ki' }, { char: 'く', romaji: 'ku' }, { char: 'け', romaji: 'ke' }, { char: 'こ', romaji: 'ko' },
-      { char: 'さ', romaji: 'sa' }, { char: 'し', romaji: 'shi' }, { char: 'す', romaji: 'su' }, { char: 'せ', romaji: 'se' }, { char: 'そ', romaji: 'so' },
-      { char: 'た', romaji: 'ta' }, { char: 'ち', romaji: 'chi' }, { char: 'つ', romaji: 'tsu' }, { char: 'て', romaji: 'te' }, { char: 'と', romaji: 'to' },
-      // { char: 'な', romaji: 'na' }, { char: 'に', romaji: 'ni' }, { char: 'ぬ', romaji: 'nu' }, { char: 'ね', romaji: 'ne' }, { char: 'の', romaji: 'no' },
-      // { char: 'は', romaji: 'ha' }, { char: 'ひ', romaji: 'hi' }, { char: 'ふ', romaji: 'fu' }, { char: 'へ', romaji: 'he' }, { char: 'ほ', romaji: 'ho' },
-      // { char: 'ま', romaji: 'ma' }, { char: 'み', romaji: 'mi' }, { char: 'む', romaji: 'mu' }, { char: 'め', romaji: 'me' }, { char: 'も', romaji: 'mo' },
-      // { char: 'や', romaji: 'ya' }, { char: 'ゆ', romaji: 'yu' }, { char: 'よ', romaji: 'yo' },
-      // { char: 'ら', romaji: 'ra' }, { char: 'り', romaji: 'ri' }, { char: 'る', romaji: 'ru' }, { char: 'れ', romaji: 're' }, { char: 'ろ', romaji: 'ro' },
-      // { char: 'わ', romaji: 'wa' }, { char: 'を', romaji: 'wo' }, { char: 'ん', romaji: 'n' }
-    ];
+    // Cấu hình SheetDB API
+    const SHEETDB_API = 'https://sheetdb.io/api/v1/tvmy9ezg0xkh9'; // Endpoint bạn cung cấp
 
-    let currentIndex = 0;
-    let score = 0;
-
-    const bgMusic = document.getElementById("bgMusic");
-    const correctSound = document.getElementById("correctSound");
-    const wrongSound = document.getElementById("wrongSound");
-
-    function nextHiragana() {
-      currentIndex = (currentIndex + 1) % hiraganaData.length;
-      const hiragana = document.getElementById("hiragana");
-      const romaji = document.getElementById("romaji");
-      hiragana.textContent = hiraganaData[currentIndex].char;
-      romaji.textContent = hiraganaData[currentIndex].romaji;
-      hiragana.classList.add("flip");
-      setTimeout(() => hiragana.classList.remove("flip"), 600);
+    async function fetchKeysFromSheet() {
+      try {
+        const response = await fetch(SHEETDB_API);
+        const data = await response.json();
+        // SheetDB trả về mảng đối tượng, lấy giá trị cột A
+        return data.map(row => row.A).filter(key => key); // Lọc bỏ ô trống
+      } catch (error) {
+        console.error('Lỗi lấy key từ SheetDB:', error);
+        return null;
+      }
     }
 
-    function startQuiz() {
-      document.getElementById("quizSection").classList.remove("hidden");
-      bgMusic.play().catch(() => {}); // Bắt lỗi nếu trình duyệt chặn autoplay
-      generateQuiz();
-    }
+    async function getDailyKey() {
+      const today = new Date().toISOString().split('T')[0];
+      const storedDate = localStorage.getItem('keyDate');
+      const storedKey = localStorage.getItem('dailyKey');
 
-    function generateQuiz() {
-      const randomIndex = Math.floor(Math.random() * hiraganaData.length);
-      const quizChar = hiraganaData[randomIndex];
-      const quizHiragana = document.getElementById("quizHiragana");
-      quizHiragana.textContent = quizChar.char;
-
-      const correctAnswer = quizChar.romaji;
-      let options = [correctAnswer];
-
-      while (options.length < 4) {
-        const randomRomaji = hiraganaData[Math.floor(Math.random() * hiraganaData.length)].romaji;
-        if (!options.includes(randomRomaji)) options.push(randomRomaji);
+      // Nếu ngày hiện tại khớp và có key lưu trữ, trả về key đó
+      if (storedDate === today && storedKey) {
+        return storedKey;
       }
 
-      options = options.sort(() => Math.random() - 0.5);
+      // Lấy key từ SheetDB
+      const keyList = await fetchKeysFromSheet();
+      if (!keyList || keyList.length === 0) {
+        return 'Lỗi: Không lấy được key';
+      }
 
-      const quizOptions = document.getElementById("quizOptions");
-      quizOptions.innerHTML = '';
-      options.forEach((option, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = option;
-        btn.className = "bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200 slide-in";
-        btn.style.animationDelay = `${i * 0.1}s`;
-        btn.onclick = () => checkAnswer(option, correctAnswer);
-        quizOptions.appendChild(btn);
+      // Tính chỉ số key dựa trên ngày
+      const startDate = new Date('2025-07-01');
+      const currentDate = new Date(today);
+      const dayDiff = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+      const keyIndex = dayDiff % keyList.length; // Lặp lại danh sách key
+      const newKey = keyList[keyIndex] || 'Không có key';
+
+      // Lưu key và ngày vào localStorage
+      localStorage.setItem('keyDate', today);
+      localStorage.setItem('dailyKey', newKey);
+      return newKey;
+    }
+
+    function updateKeyDisplay() {
+      getDailyKey().then(key => {
+        document.getElementById('keyText').textContent = key;
+        document.getElementById('keyDate').textContent = `Key ngày: ${new Date().toLocaleDateString('vi-VN')}`;
+      }).catch(err => {
+        console.error('Lỗi hiển thị key:', err);
+        document.getElementById('keyText').textContent = 'Lỗi tải key';
+        document.getElementById('keyDate').textContent = 'Không thể tải key';
       });
     }
 
-    function checkAnswer(selected, correct) {
-      const result = document.getElementById("result");
-      if (selected === correct) {
-        correctSound.play();
-        result.textContent = "🎉 Đúng!";
-        result.className = "text-green-600 text-lg font-medium mt-3 bounce";
-        score++;
-      } else {
-        wrongSound.play();
-        result.textContent = `❌ Sai! Đáp án đúng là: ${correct}`;
-        result.className = "text-red-600 text-lg font-medium mt-3 bounce";
+    function copyKey() {
+      const key = document.getElementById('keyText').textContent.trim();
+      if (key === 'Đang tải...' || key === 'Lỗi tải key') {
+        alert('Key chưa sẵn sàng! Vui lòng thử lại sau.');
+        return;
       }
-      document.getElementById("score").textContent = score;
-      setTimeout(generateQuiz, 1000);
+      navigator.clipboard.writeText(key)
+        .then(() => {
+          const msg = document.getElementById('copiedMsg');
+          msg.style.display = 'block';
+          setTimeout(() => msg.style.display = 'none', 2000);
+        })
+        .catch(err => {
+          console.error('Lỗi sao chép key:', err);
+          alert('Không thể sao chép key! Vui lòng thử lại.');
+        });
     }
 
-    document.getElementById("nextButton").addEventListener("click", nextHiragana);
-    document.getElementById("quizButton").addEventListener("click", startQuiz);
+    // Cập nhật key khi tải trang
+    updateKeyDisplay();
   </script>
 </body>
 </html>
