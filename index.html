@@ -124,13 +124,12 @@
     // ĐÂY LÀ URL ĐẾN GOOGLE APPS SCRIPT WEB APP CỦA BẠN
     // Đảm bảo URL này là chính xác từ triển khai Web App của bạn
     // (Từ "Deploy" -> "Manage deployments" -> Sao chép URL Web App)
-    // URL hiện tại bạn đã cung cấp:
     const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec";
     // *******************************************************************
 
-    // Hàm để lấy chuỗi ngày hiện tại định dạng YYYY-MM-DD
-    // Giúp so sánh chính xác với trường 'date' trong JSON từ Google Script
-    function getTodayStringFormattedForSheet() {
+    // Hàm để lấy chuỗi ngày hiện tại định dạng ISO (YYYY-MM-DD)
+    // Điều này giúp so sánh ngày chính xác
+    function getTodayStringISO() {
       const today = new Date();
       return today.toISOString().split('T')[0]; // Ví dụ: "2025-07-09"
     }
@@ -139,7 +138,6 @@
     async function getDailyKeyFromScript() {
       try {
         // Thêm một tham số ngẫu nhiên vào URL để tránh cache của trình duyệt
-        // Đảm bảo luôn lấy dữ liệu mới nhất
         const urlWithCacheBuster = `${GOOGLE_SCRIPT_WEB_APP_URL}?_t=${new Date().getTime()}`;
         
         // Thực hiện yêu cầu fetch đến Google Apps Script
@@ -148,29 +146,42 @@
         // Kiểm tra xem phản hồi HTTP có thành công không (mã 2xx)
         if (!response.ok) {
           console.error('Lỗi HTTP khi tải dữ liệu từ Google Script:', response.status, response.statusText);
-          return 'Không tải được key (Lỗi máy chủ)'; // Thông báo lỗi rõ ràng hơn
+          return 'Không tải được key (Lỗi máy chủ)'; 
         }
 
         // Phân tích cú pháp phản hồi thành đối tượng JSON
         const data = await response.json(); 
-        const todayString = getTodayStringFormattedForSheet(); // Lấy ngày hôm nay định dạng YYYY-MM-DD
+        const todayISO = getTodayStringISO(); // Lấy ngày hôm nay định dạng ISO
 
-        // Kiểm tra cấu trúc JSON và xem ngày có khớp không
-        if (data && data.date && data.date === todayString) {
-          if (data.key !== null) { // Nếu trường 'key' không phải là null
-            return data.key; // Trả về giá trị key
-          } else {
-            return 'Key hôm nay chưa được cập nhật'; // Key là null, nghĩa là chưa có key cho ngày này trong Sheet
-          }
+        // --- Bắt đầu xử lý cấu trúc JSON mới ---
+        if (data && Array.isArray(data.keys) && data.keys.length > 0) {
+            // Duyệt qua mảng 'keys' để tìm key phù hợp với ngày hôm nay hoặc key không có ngày hết hạn
+            for (const item of data.keys) {
+                // Kiểm tra nếu có key và có expiry date
+                if (item.key) {
+                    if (item.expiry) {
+                        const expiryDateISO = new Date(item.expiry).toISOString().split('T')[0];
+                        // Nếu ngày hết hạn lớn hơn hoặc bằng ngày hôm nay, và key hợp lệ
+                        if (expiryDateISO >= todayISO) {
+                            return item.key; // Trả về key đầu tiên tìm thấy còn hạn
+                        }
+                    } else {
+                        // Nếu không có expiry date, coi là key hợp lệ luôn (hoặc bạn có thể thay đổi logic này)
+                        return item.key; // Trả về key đầu tiên không có ngày hết hạn
+                    }
+                }
+            }
+            // Nếu duyệt hết mà không tìm thấy key còn hạn hoặc key không có expiry date
+            return 'Key hôm nay đã hết hạn hoặc chưa có';
         } else {
-          // Trường hợp: JSON không có trường 'date', hoặc 'date' không khớp với ngày hôm nay, hoặc data không hợp lệ
-          console.warn('JSON từ script không chứa key hợp lệ cho ngày hôm nay hoặc cấu trúc không đúng:', data);
-          return 'Key hôm nay chưa được cập nhật'; // Thông báo chung cho các trường hợp không tìm thấy
+          // Trường hợp: JSON không có mảng 'keys', hoặc mảng rỗng, hoặc cấu trúc không đúng
+          console.warn('JSON từ script không chứa mảng key hợp lệ hoặc cấu trúc không đúng:', data);
+          return 'Key hôm nay chưa được cập nhật'; 
         }
       } catch (err) {
         // Xử lý lỗi trong quá trình fetch hoặc phân tích cú pháp JSON
         console.error('❌ Lỗi đọc hoặc phân tích cú pháp JSON từ Google Script:', err);
-        return 'Không tải được key'; // Thông báo lỗi chung cho người dùng
+        return 'Không tải được key'; 
       }
     }
 
@@ -189,7 +200,7 @@
     function copyKey() {
       const key = document.getElementById('keyText').textContent.trim();
       // Ngăn không cho copy các thông báo lỗi hoặc trạng thái
-      if (key === 'Đang tải...' || key.includes('Không tải được key') || key.includes('Key hôm nay chưa được cập nhật')) {
+      if (key === 'Đang tải...' || key.includes('Không tải được key') || key.includes('Key hôm nay chưa được cập nhật') || key.includes('Key hôm nay đã hết hạn')) {
         alert('Key chưa sẵn sàng hoặc không hợp lệ để sao chép!');
         return;
       }
