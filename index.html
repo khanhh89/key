@@ -1,359 +1,605 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lấy Key Game Hàng Ngày</title>
-    <style>
-        /* Biến CSS cho màu sắc dễ quản lý */
-        :root {
-            --primary-color: #4CAF50; /* Xanh lá cây nổi bật */
-            --secondary-color: #6a1b9a; /* Tím */
-            --text-color: #e0e0e0; /* Trắng xám cho chữ */
-            --background-dark: #2c2c2c; /* Nền tối */
-            --background-light: #3a3a3a; /* Nền sáng hơn một chút */
-            --border-color: #555;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-        }
+   
+  <meta charset="UTF-8">
+   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lấy Key Game Hàng Ngày</title>
+    <style>
+    /* Biến CSS cho màu sắc dễ quản lý */
+    :root {
+      --primary-color: #4CAF50;
+      /* Xanh lá cây nổi bật */
+      --secondary-color: #6a1b9a;
+      /* Tím */
+      --text-color: #e0e0e0;
+      /* Trắng xám cho chữ */
+      --background-dark: #2c2c2c;
+      /* Nền tối */
+      --background-light: #3a3a3a;
+      /* Nền sáng hơn một chút */
+      --border-color: #555;
+      --shadow-color: rgba(0, 0, 0, 0.4);
+    }
 
-        /* Khung xương cơ bản */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-dark);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Đảm bảo trang chiếm toàn bộ chiều cao màn hình */
-            overflow: hidden; /* Ngăn cuộn khi có bg-animation */
-            position: relative;
-        }
+    /* Khung xương cơ bản */
+    body {
+      margin: 11px;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-dark);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      /* Đảm bảo trang chiếm toàn bộ chiều cao màn hình */
+      overflow: hidden;
+      /* Ngăn cuộn khi có bg-animation */
+      position: relative;
+    }
 
-        /* Hiệu ứng nền */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Đảm bảo nằm dưới nội dung */
-            background: radial-gradient(circle at top left, var(--secondary-color) 0%, transparent 40%),
-                        radial-gradient(circle at bottom right, var(--primary-color) 0%, transparent 40%);
-            animation: fadeIn 2s ease-out forwards; /* Hiệu ứng mờ dần khi tải trang */
-            opacity: 0;
-        }
+    /* Hiệu ứng nền */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      /* Đảm bảo nằm dưới nội dung */
+      background: radial-gradient(circle at top left, var(--secondary-color) 0%, transparent 40%),
+        radial-gradient(circle at bottom right, var(--primary-color) 0%, transparent 40%);
+      animation: fadeIn 2s ease-out forwards;
+      /* Hiệu ứng mờ dần khi tải trang */
+      opacity: 0;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
 
-        /* Container chính */
-        .container {
-            background-color: var(--background-light);
-            padding: 3rem 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            z-index: 1; /* Đảm bảo nằm trên nền */
-            animation: slideInUp 0.8s ease-out forwards; /* Hiệu ứng trượt lên */
-            transform: translateY(20px);
-            opacity: 0;
-        }
+      to {
+        opacity: 1;
+      }
+    }
 
-        @keyframes slideInUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+    /* Container chính */
+    .container {
+      background-color: var(--background-light);
+      padding: 1rem 7rem;
+      border-radius: 81px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      z-index: 1;
+      /* Đảm bảo nằm trên nền */
+      animation: slideInUp 0.8s ease-out forwards;
+      /* Hiệu ứng trượt lên */
+      transform: translateY(20px);
+      opacity: 0;
+    }
 
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            font-size: 2.2rem;
-            font-weight: 600;
-        }
+    @keyframes slideInUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
 
-        .key-date {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #b0b0b0;
-        }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
 
-        .key-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--background-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem 1.2rem;
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-            flex-wrap: wrap; /* Đảm bảo key và nút không tràn ra ngoài trên mobile */
-            gap: 10px; /* Khoảng cách giữa key và nút */
-        }
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: -1.5rem;
+      margin-top: 0px;
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
 
-        #keyText {
-            flex-grow: 1; /* Cho phép text chiếm nhiều không gian hơn */
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #fff;
-            word-break: break-all; /* Ngắt từ nếu key quá dài */
-            text-align: left; /* Căn trái văn bản key */
-            padding-right: 10px;
-        }
+    .key-date {
+      font-size: 25px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #b0b0b0;
+    }
 
-        .envelope {
-            cursor: pointer;
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            padding: 0.5rem;
-            border-radius: 50%;
-            transition: all 0.2s ease-in-out;
-            display: flex; /* Dùng flex để căn giữa icon */
-            justify-content: center;
-            align-items: center;
-            width: 40px; /* Kích thước cố định cho nút */
-            height: 40px; /* Kích thước cố định cho nút */
-            box-sizing: border-box;
-            background-color: var(--background-dark); /* Nền nút */
-            border: 1px solid var(--border-color);
-        }
+    .key-container {
+      display: flex;
+      align-items: center;
+      /* Căn giữa dọc các phần tử con */
+      justify-content: space-between;
+      /* Đẩy key và nút copy ra hai bên */
+      background-color: var(--background-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 95px;
+      /* Bo góc nhẹ nhàng hơn */
+      padding: 9px 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4),
+        /* Bóng đổ bên trong */
+        0 5px 15px rgba(0, 0, 0, 0.3);
+      /* Bóng đổ bên ngoài */
+      transition: all 0.3s ease;
+      /* Hiệu ứng chuyển động mượt mà */
+      position: relative;
+      /* Để dùng cho hiệu ứng ánh sáng */
+      overflow: hidden;
+      /* Quan trọng để ánh sáng không tràn ra ngoài */
+    }
 
-        .envelope:hover {
-            color: #fff;
-            background-color: var(--primary-color);
-            box-shadow: 0 0 15px var(--primary-color);
-            transform: scale(1.05);
-        }
+    /* Thêm hiệu ứng ánh sáng lấp lánh (tùy chọn) */
+    .key-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      transform: rotate(45deg);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
 
-        .envelope:active {
-            transform: scale(0.95);
-        }
+    .key-container:hover::before {
+      opacity: 1;
+      /* Hiện ánh sáng khi hover */
+    }
 
-        /* Thông báo "Đã copy key!" */
-        #copiedMsg {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
-            position: absolute;
-            bottom: -30px; /* Đặt dưới container một chút */
-            left: 50%;
-            transform: translate(-50%, 0);
-            white-space: nowrap;
-            display: none; /* Ban đầu ẩn */
-            opacity: 0;
-            animation: fadeAndSlideUp 2s forwards; /* Kết hợp hiệu ứng */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            font-weight: 500;
-        }
+    /* Wrapper cho key text để kiểm soát tốt hơn */
+    .key-display-wrapper {
+      flex-grow: 1;
+      overflow: hidden;
+      /* Ẩn phần tràn ra */
+      white-space: nowrap;
+      /* Ngăn key xuống dòng ban đầu */
+      text-overflow: ellipsis;
+      /* Thêm dấu ba chấm nếu key quá dài */
+      padding-right: 15px;
+      /* Khoảng cách với nút copy */
+      cursor: text;
+      /* Cho biết đây là vùng text */
+    }
 
-        /* Keyframes cho thông báo copy */
-        @keyframes fadeAndSlideUp {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, 10px);
-            }
-            20% {
-                opacity: 1;
-                transform: translate(-50%, 0);
-            }
-            80% {
-                opacity: 1;
-                transform: translate(-50%, 0);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -10px);
-            }
-        }
+    #keyText {
+      font-size: 16px;
+      /* Tăng kích thước key */
+      font-weight: 600;
+      color: #fff;
+      /* Màu trắng tinh khiết */
+      letter-spacing: 0.05em;
+      /* Tăng khoảng cách chữ nhẹ */
+      user-select: all;
+      /* Cho phép người dùng chọn toàn bộ key dễ dàng */
+      display: inline-block;
+      /* Quan trọng để text-overflow hoạt động */
+      vertical-align: middle;
+      /* Căn giữa dọc với nút copy */
+      white-space: normal;
+      /* Cho phép xuống dòng trong wrapper */
+    }
 
-        /* Responsive cho màn hình nhỏ hơn */
-        @media (max-width: 600px) {
-            .container {
-                padding: 2rem 1.5rem;
-                border-radius: 10px;
-            }
+    /* Khi key quá dài, không xuống dòng mà chỉ hiện 3 chấm */
+    .key-display-wrapper:hover #keyText {
+      white-space: normal;
+      /* Cho phép xuống dòng khi hover để đọc toàn bộ key */
+      text-overflow: unset;
+      /* Bỏ dấu ba chấm khi hover */
+    }
 
-            h1 {
-                font-size: 1.8rem;
-                margin-bottom: 1rem;
-            }
+    .envelope {
+      cursor: pointer;
+      font-size: 1.8rem;
+      /* Kích thước icon */
+      color: var(--primary-color);
+      /* Màu xanh lá */
+      background-color: var(--background-dark);
+      border: 2px solid var(--primary-color);
+      /* Viền màu xanh lá */
+      border-radius: 50%;
+      width: 45px;
+      /* Kích thước cố định cho nút */
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      /* Đảm bảo padding/border không làm tăng kích thước */
+      transition: all 0.3s ease-in-out;
+      /* Chuyển động mượt mà */
+      flex-shrink: 0;
+      /* Ngăn nút co lại */
+    }
 
-            .key-date {
-                font-size: 1rem;
-            }
+    .envelope:hover {
+      color: #fff;
+      /* Chữ trắng khi hover */
+      background-color: var(--primary-color);
+      /* Nền xanh lá */
+      box-shadow: 0 0 20px var(--primary-color),
+        /* Đổ bóng sáng */
+        0 0 30px rgba(76, 175, 80, 0.5);
+      /* Thêm bóng mờ */
+      transform: scale(1.1);
+      /* Phóng to nhẹ */
+      border-color: transparent;
+      /* Bỏ viền khi hover */
+    }
 
-            #keyText {
-                font-size: 1.2rem;
-            }
+    .envelope:active {
+      transform: scale(0.95);
+      /* Hiệu ứng khi nhấn */
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
 
-            .envelope {
-                font-size: 1.5rem;
-                width: 35px;
-                height: 35px;
-            }
+    /* ... Các CSS responsive @media (max-width: 600px) của bạn ở dưới ... */
 
-            .key-container {
-                padding: 0.8rem 1rem;
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-            }
+    @media (max-width: 600px) {
 
-            #copiedMsg {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-                bottom: -20px;
-            }
-        }
-    </style>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+      /* ... Giữ các style responsive hiện có ... */
+      #keyText {
+        font-size: 10px;
+        /* Giảm kích thước key trên mobile */
+      }
+
+      .envelope {
+        font-size: 1.6rem;
+        width: 40px;
+        height: 40px;
+      }
+
+      .key-container {
+        padding: 0.8rem 1rem;
+      }
+    }
+
+    /* Thông báo "Đã copy key!" */
+    #copiedMsg {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      position: absolute;
+      bottom: -30px;
+      /* Đặt dưới container một chút */
+      left: 50%;
+      transform: translate(-50%, 0);
+      white-space: nowrap;
+      display: none;
+      /* Ban đầu ẩn */
+      opacity: 0;
+      animation: fadeAndSlideUp 2s forwards;
+      /* Kết hợp hiệu ứng */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      font-weight: 500;
+    }
+
+    /* Keyframes cho thông báo copy */
+    @keyframes fadeAndSlideUp {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+      }
+
+      20% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      80% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+      }
+    }
+
+    /* Responsive cho màn hình nhỏ hơn */
+    @media (max-width: 600px) {
+      .container {
+        padding: 2rem 1.5rem;
+        border-radius: 10px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .key-date {
+        font-size: 1rem;
+      }
+
+      #keyText {
+        font-size: 1.2rem;
+      }
+
+      .envelope {
+        font-size: 1.5rem;
+        width: 35px;
+        height: 35px;
+      }
+
+      .key-container {
+        padding: 0.8rem 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      #copiedMsg {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+        bottom: -20px;
+      }
+    }
+  </style>
+
+   
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="bg-animation"></div>
-  <div class="container">
-    <h1>Lấy Key Game Hàng Ngày</h1>
-    <div class="key-date" id="keyDate">Đang tải...</div>
-    <div class="key-container">
-      <span id="keyText">Đang tải...</span>
-      <span class="envelope" onclick="copyKey()">✉️</span>
-    </div>
-    <div id="copiedMsg">Đã copy key!</div>
-  </div>
 
-  <script>
+<body>
+    <div class="bg-animation"></div>
+    <div class="container">
+        <h1>Lấy Key Game Hàng Ngày</h1>
+        <div class="key-date" id="keyDate">Đang tải...</div>
+        <div class="key-container">
+            <span id="keyText">Đang tải...</span>
+            <span class="envelope" onclick="copyKey()">✉️</span>
+          </div>
+        <div id="copiedMsg">Đã copy key!</div>
+      </div>
+
+   
+  <script>
     // *******************************************************************
     // ĐÂY LÀ URL ĐẾN GOOGLE APPS SCRIPT WEB APP CỦA BẠN
     // Đảm bảo URL này là chính xác từ triển khai Web App của bạn
     // (Từ "Deploy" -> "Manage deployments" -> Sao chép URL Web App)
-    const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec";
+    const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu54ooCKK9mM8T-2E-HVk5bTPX8H-OAOAtnjpAu8gTPebV4k7cqT1GjQFdI5Lesz4W/exec";
     // *******************************************************************
 
-    // Hàm để lấy chuỗi ngày hiện tại định dạng ISO (YYYY-MM-DD)
-    // Điều này giúp so sánh ngày chính xác
-    function getTodayStringISO() {
-      const today = new Date();
-      return today.toISOString().split('T')[0]; // Ví dụ: "2025-07-09"
-    }
+    // Hàm để lấy chuỗi ngày hiện tại định dạng ISO (YYYY-MM-DD)
+    // Điều này giúp so sánh ngày chính xác
+    function getTodayStringISO() {
+      const today = new Date();
+      return today.toISOString().split('T')[0]; // Ví dụ: "2025-07-09"
+    }
 
-    // Hàm chính để lấy key hàng ngày từ Google Apps Script
-    async function getDailyKeyFromScript() {
-      try {
-        // Thêm một tham số ngẫu nhiên vào URL để tránh cache của trình duyệt
-        const urlWithCacheBuster = `${GOOGLE_SCRIPT_WEB_APP_URL}?_t=${new Date().getTime()}`;
-        
+    // Hàm chính để lấy key hàng ngày từ Google Apps Script
+    async function getDailyKeyFromScript() {
+      try {
+        // Thêm một tham số ngẫu nhiên vào URL để tránh cache của trình duyệt
+        const urlWithCacheBuster = `${GOOGLE_SCRIPT_WEB_APP_URL}?_t=${new Date().getTime()}`;
+
         // Thực hiện yêu cầu fetch đến Google Apps Script
-        const response = await fetch(urlWithCacheBuster);
+        const response = await fetch(urlWithCacheBuster);
 
-        // Kiểm tra xem phản hồi HTTP có thành công không (mã 2xx)
-        if (!response.ok) {
-          console.error('Lỗi HTTP khi tải dữ liệu từ Google Script:', response.status, response.statusText);
-          return 'Không tải được key (Lỗi máy chủ)'; 
-        }
+        // Kiểm tra xem phản hồi HTTP có thành công không (mã 2xx)
+        if (!response.ok) {
+          console.error('Lỗi HTTP khi tải dữ liệu từ Google Script:', response.status, response.statusText);
+          return 'Không tải được key (Lỗi máy chủ)';
+        }
 
-        // Phân tích cú pháp phản hồi thành đối tượng JSON
-        const data = await response.json(); 
-        const todayISO = getTodayStringISO(); // Lấy ngày hôm nay định dạng ISO
+        // Phân tích cú pháp phản hồi thành đối tượng JSON
+        const data = await response.json();
+        const todayISO = getTodayStringISO(); // Lấy ngày hôm nay định dạng ISO
 
         // --- Bắt đầu xử lý cấu trúc JSON mới ---
-        if (data && Array.isArray(data.keys) && data.keys.length > 0) {
-            // Duyệt qua mảng 'keys' để tìm key phù hợp với ngày hôm nay hoặc key không có ngày hết hạn
-            for (const item of data.keys) {
-                // Kiểm tra nếu có key và có expiry date
-                if (item.key) {
-                    if (item.expiry) {
-                        const expiryDateISO = new Date(item.expiry).toISOString().split('T')[0];
-                        // Nếu ngày hết hạn lớn hơn hoặc bằng ngày hôm nay, và key hợp lệ
-                        if (expiryDateISO >= todayISO) {
-                            return item.key; // Trả về key đầu tiên tìm thấy còn hạn
-                        }
-                    } else {
-                        // Nếu không có expiry date, coi là key hợp lệ luôn (hoặc bạn có thể thay đổi logic này)
-                        return item.key; // Trả về key đầu tiên không có ngày hết hạn
-                    }
+        if (data && Array.isArray(data.keys) && data.keys.length > 0) {
+          // Duyệt qua mảng 'keys' để tìm key phù hợp với ngày hôm nay hoặc key không có ngày hết hạn
+          for (const item of data.keys) {
+            // Kiểm tra nếu có key và có expiry date
+            if (item.key) {
+              if (item.expiry) {
+                const expiryDateISO = new Date(item.expiry).toISOString().split('T')[0];
+                // Nếu ngày hết hạn lớn hơn hoặc bằng ngày hôm nay, và key hợp lệ
+                if (expiryDateISO >= todayISO) {
+                  return item.key; // Trả về key đầu tiên tìm thấy còn hạn
                 }
+              } else {
+                // Nếu không có expiry date, coi là key hợp lệ luôn (hoặc bạn có thể thay đổi logic này)
+                return item.key; // Trả về key đầu tiên không có ngày hết hạn
+              }
             }
-            // Nếu duyệt hết mà không tìm thấy key còn hạn hoặc key không có expiry date
-            return 'Key hôm nay đã hết hạn hoặc chưa có';
-        } else {
-          // Trường hợp: JSON không có mảng 'keys', hoặc mảng rỗng, hoặc cấu trúc không đúng
-          console.warn('JSON từ script không chứa mảng key hợp lệ hoặc cấu trúc không đúng:', data);
-          return 'Key hôm nay chưa được cập nhật'; 
-        }
-      } catch (err) {
-        // Xử lý lỗi trong quá trình fetch hoặc phân tích cú pháp JSON
-        console.error('❌ Lỗi đọc hoặc phân tích cú pháp JSON từ Google Script:', err);
-        return 'Không tải được key'; 
-      }
-    }
+          }
+          // Nếu duyệt hết mà không tìm thấy key còn hạn hoặc key không có expiry date
+          return 'Key hôm nay đã hết hạn hoặc chưa có';
+        } else {
+          // Trường hợp: JSON không có mảng 'keys', hoặc mảng rỗng, hoặc cấu trúc không đúng
+          console.warn('JSON từ script không chứa mảng key hợp lệ hoặc cấu trúc không đúng:', data);
+          return 'Key hôm nay chưa được cập nhật';
+        }
+      } catch (err) {
+        // Xử lý lỗi trong quá trình fetch hoặc phân tích cú pháp JSON
+        console.error('❌ Lỗi đọc hoặc phân tích cú pháp JSON từ Google Script:', err);
+        return 'Không tải được key';
+      }
+    }
 
-    // Hàm cập nhật hiển thị key và ngày lên giao diện
-    function updateKeyDisplay() {
-      // Hiển thị ngày hiện tại bằng ngôn ngữ địa phương (ví dụ: "9/7/2025")
-      document.getElementById('keyDate').textContent = `Key ngày: ${new Date().toLocaleDateString('vi-VN')}`;
+    // Hàm cập nhật hiển thị key và ngày lên giao diện
+    function updateKeyDisplay() {
+      // Hiển thị ngày hiện tại bằng ngôn ngữ địa phương (ví dụ: "9/7/2025")
+      document.getElementById('keyDate').textContent = `Key ngày: ${new Date().toLocaleDateString('vi-VN')}`;
 
-      // Gọi hàm lấy key và cập nhật nội dung
-      getDailyKeyFromScript().then(key => {
-        document.getElementById('keyText').textContent = key;
-      });
-    }
+      // Gọi hàm lấy key và cập nhật nội dung
+      getDailyKeyFromScript().then(key => {
+        document.getElementById('keyText').textContent = key;
+      });
+    }
 
-    // Hàm sao chép key vào clipboard
-    function copyKey() {
-      const key = document.getElementById('keyText').textContent.trim();
-      // Ngăn không cho copy các thông báo lỗi hoặc trạng thái
-      if (key === 'Đang tải...' || key.includes('Không tải được key') || key.includes('Key hôm nay chưa được cập nhật') || key.includes('Key hôm nay đã hết hạn')) {
-        alert('Key chưa sẵn sàng hoặc không hợp lệ để sao chép!');
-        return;
-      }
+    // Hàm sao chép key vào clipboard
+    function copyKey() {
+      const key = document.getElementById('keyText').textContent.trim();
+      // Ngăn không cho copy các thông báo lỗi hoặc trạng thái
+      if (key === 'Đang tải...' || key.includes('Không tải được key') || key.includes('Key hôm nay chưa được cập nhật') || key.includes('Key hôm nay đã hết hạn')) {
+        alert('Key chưa sẵn sàng hoặc không hợp lệ để sao chép!');
+        return;
+      }
 
-      // Sử dụng Clipboard API hiện đại
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(key)
-          .then(showCopiedMsg) // Hiển thị thông báo đã copy nếu thành công
-          .catch(() => fallbackCopy(key)); // Dùng cách cũ nếu có lỗi
-      } else {
-        fallbackCopy(key); // Dùng cách cũ nếu API không được hỗ trợ
-      }
-    }
+      // Sử dụng Clipboard API hiện đại
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key)
+          .then(showCopiedMsg) // Hiển thị thông báo đã copy nếu thành công
+          .catch(() => fallbackCopy(key)); // Dùng cách cũ nếu có lỗi
+      } else {
+        fallbackCopy(key); // Dùng cách cũ nếu API không được hỗ trợ
+      }
+    }
 
-    // Hàm sao chép dự phòng cho các trình duyệt cũ hơn
-    function fallbackCopy(text) {
-      const tempInput = document.createElement('textarea');
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      try {
-        document.execCommand('copy');
-        showCopiedMsg();
-      } catch (err) {
-        alert('Không thể sao chép key!');
-      }
-      document.body.removeChild(tempInput);
-    }
+    // Hàm sao chép dự phòng cho các trình duyệt cũ hơn
+    function fallbackCopy(text) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showCopiedMsg();
+      } catch (err) {
+        alert('Không thể sao chép key!');
+      }
+      document.body.removeChild(tempInput);
+    }
 
-    // Hàm hiển thị thông báo "Đã copy key!"
-    function showCopiedMsg() {
-      const msg = document.getElementById('copiedMsg');
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 2000); // Tự động ẩn sau 2 giây
-    }
+    // Hàm hiển thị thông báo "Đã copy key!"
+    function showCopiedMsg() {
+      const msg = document.getElementById('copiedMsg');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 2000); // Tự động ẩn sau 2 giây
+    }
 
-    // Gọi hàm này khi trang HTML được tải hoàn tất
-    updateKeyDisplay();
-  </script>
+    // Gọi hàm này khi trang HTML được tải hoàn tất
+    updateKeyDisplay();
+  </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
+
 </html>
