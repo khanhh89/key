@@ -1,110 +1,225 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lấy Key Game Hàng Ngày</title>
-  <style>
-    /* CSS của bạn (không thay đổi) */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #1e1e2f, #2a2a4e);
-      color: #fff;
-      overflow: hidden;
-    }
-    .container {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      max-width: 500px;
-      width: 90%;
-      transition: transform 0.3s ease;
-    }
-    .container:hover { transform: translateY(-10px); }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #00ffcc;
-      text-shadow: 0 0 10px #00ffcc;
-    }
-    .key-date {
-      font-size: 0.9rem;
-      color: #cccccc;
-      margin-bottom: 1.5rem;
-    }
-    .key-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-      border: 1px solid #00ffcc;
-    }
-    #keyText {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 2px;
-    }
-    .envelope {
-      cursor: pointer;
-      font-size: 2rem;
-      color: #00ffcc;
-      transition: transform 0.3s ease, color 0.3s ease;
-    }
-    .envelope:hover {
-      color: #00cc99;
-      transform: scale(1.3) rotate(5deg);
-    }
-    #copiedMsg {
-      display: none;
-      margin-top: 1.5rem;
-      padding: 0.8rem;
-      background: #28a745;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 500;
-      animation: fadeInOut 2s ease-in-out;
-      box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
-    }
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translateY(10px); }
-      10% { opacity: 1; transform: translateY(0); }
-      90% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(10px); }
-    }
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
-      animation: pulse 10s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.3; }
-      50% { transform: scale(1.2); opacity: 0.5; }
-      100% { transform: scale(1); opacity: 0.3; }
-    }
-    @media (max-width: 600px) {
-      h1 { font-size: 1.5rem; }
-      #keyText { font-size: 1rem; }
-      .envelope { font-size: 1.5rem; }
-      .container { padding: 1.5rem; }
-    }
-  </style>
+    <style>
+        /* Biến CSS cho màu sắc dễ quản lý */
+        :root {
+            --primary-color: #4CAF50; /* Xanh lá cây nổi bật */
+            --secondary-color: #6a1b9a; /* Tím */
+            --text-color: #e0e0e0; /* Trắng xám cho chữ */
+            --background-dark: #2c2c2c; /* Nền tối */
+            --background-light: #3a3a3a; /* Nền sáng hơn một chút */
+            --border-color: #555;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Khung xương cơ bản */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Đảm bảo trang chiếm toàn bộ chiều cao màn hình */
+            overflow: hidden; /* Ngăn cuộn khi có bg-animation */
+            position: relative;
+        }
+
+        /* Hiệu ứng nền */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Đảm bảo nằm dưới nội dung */
+            background: radial-gradient(circle at top left, var(--secondary-color) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, var(--primary-color) 0%, transparent 40%);
+            animation: fadeIn 2s ease-out forwards; /* Hiệu ứng mờ dần khi tải trang */
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Container chính */
+        .container {
+            background-color: var(--background-light);
+            padding: 3rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 1; /* Đảm bảo nằm trên nền */
+            animation: slideInUp 0.8s ease-out forwards; /* Hiệu ứng trượt lên */
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+
+        .key-date {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #b0b0b0;
+        }
+
+        .key-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--background-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap; /* Đảm bảo key và nút không tràn ra ngoài trên mobile */
+            gap: 10px; /* Khoảng cách giữa key và nút */
+        }
+
+        #keyText {
+            flex-grow: 1; /* Cho phép text chiếm nhiều không gian hơn */
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #fff;
+            word-break: break-all; /* Ngắt từ nếu key quá dài */
+            text-align: left; /* Căn trái văn bản key */
+            padding-right: 10px;
+        }
+
+        .envelope {
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.2s ease-in-out;
+            display: flex; /* Dùng flex để căn giữa icon */
+            justify-content: center;
+            align-items: center;
+            width: 40px; /* Kích thước cố định cho nút */
+            height: 40px; /* Kích thước cố định cho nút */
+            box-sizing: border-box;
+            background-color: var(--background-dark); /* Nền nút */
+            border: 1px solid var(--border-color);
+        }
+
+        .envelope:hover {
+            color: #fff;
+            background-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .envelope:active {
+            transform: scale(0.95);
+        }
+
+        /* Thông báo "Đã copy key!" */
+        #copiedMsg {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            position: absolute;
+            bottom: -30px; /* Đặt dưới container một chút */
+            left: 50%;
+            transform: translate(-50%, 0);
+            white-space: nowrap;
+            display: none; /* Ban đầu ẩn */
+            opacity: 0;
+            animation: fadeAndSlideUp 2s forwards; /* Kết hợp hiệu ứng */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-weight: 500;
+        }
+
+        /* Keyframes cho thông báo copy */
+        @keyframes fadeAndSlideUp {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, 10px);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -10px);
+            }
+        }
+
+        /* Responsive cho màn hình nhỏ hơn */
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.5rem;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .key-date {
+                font-size: 1rem;
+            }
+
+            #keyText {
+                font-size: 1.2rem;
+            }
+
+            .envelope {
+                font-size: 1.5rem;
+                width: 35px;
+                height: 35px;
+            }
+
+            .key-container {
+                padding: 0.8rem 1rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            #copiedMsg {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                bottom: -20px;
+            }
+        }
+    </style>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
