@@ -309,43 +309,65 @@
     }
 
     /* Responsive cho màn hình nhỏ hơn */
-    @media (max-width: 600px) {
-      .container {
-        padding: 2rem 1.5rem;
-        border-radius: 10px;
-      }
+     @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.5rem;
+                border-radius: 10px;
+            }
 
-      h1 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-      }
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
 
-      .key-date {
-        font-size: 1rem;
-      }
+            .key-date {
+                font-size: 1rem;
+            }
 
-      #keyText {
-        font-size: 1.2rem;
-      }
+            #keyText {
+                font-size: 1.2rem; /* Giữ nguyên hoặc điều chỉnh theo ý bạn */
+            }
 
-      .envelope {
-        font-size: 1.5rem;
-        width: 35px;
-        height: 35px;
-      }
+            /* Điều chỉnh cho key-container trên mobile */
+            .key-container {
+                padding: 0.8rem 1rem; /* Có thể giảm padding ngang để có thêm không gian */
+                /* Đảm bảo flex wrap nếu cần */
+                flex-wrap: wrap; /* Rất quan trọng: cho phép key-display-wrapper và key-actions xuống dòng nếu không đủ chỗ */
+                justify-content: center; /* Căn giữa các phần tử con khi wrap */
+                gap: 10px; /* Khoảng cách giữa các hàng khi wrap */
+            }
 
-      .key-container {
-        padding: 0.8rem 1rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-      }
+            .key-display-wrapper {
+                width: 100%; /* Đảm bảo key-display-wrapper chiếm toàn bộ chiều rộng khi wrap */
+                padding-right: 0; /* Bỏ padding right để key text có thể chiếm hết width */
+                text-align: center; /* Căn giữa key text khi nó chiếm 100% width */
+            }
 
-      #copiedMsg {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-        bottom: -20px;
-      }
-    }
+            .key-actions {
+                width: 100%; /* Đảm bảo nhóm nút chiếm toàn bộ chiều rộng khi wrap */
+                justify-content: center; /* Căn giữa các nút bên trong key-actions */
+                gap: 15px; /* Tăng khoảng cách giữa nút mắt và nút copy một chút */
+                margin-top: 10px; /* Thêm khoảng cách nếu key và nút xuống dòng */
+            }
+
+            .toggle-visibility, .envelope {
+                font-size: 1.6rem;
+                width: 45px; /* Đặt lại kích thước này để chúng to hơn một chút và dễ bấm hơn */
+                height: 45px;
+            }
+
+            #copiedMsg {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                bottom: -20px;
+            }
+
+            .copyright {
+                margin-top: 2rem;
+                font-size: 0.8rem;
+                padding-bottom: 15px;
+            }
+        }
   </style>
 
    
