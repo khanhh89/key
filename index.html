@@ -4,20 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Liên Quân Mobile – Mùa 36 | Mod Menu VIP</title>
-
+    <title>Liên Quân Mobile | Mod Menu VIP</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        /* =================================================================
-   FULL CSS STYLE - LIÊN QUÂN MOBILE MOD LANDING PAGE
-   Theme: Cyberpunk / Gaming / Dark Neon
-   ================================================================= */
-
-        /* 1. KHAI BÁO BIẾN (VARIABLES) */
         :root {
             --primary: #00f2ff;
             /* Xanh Cyan (Màu chính) */
@@ -28,12 +21,10 @@
             --glass: rgba(255, 255, 255, 0.03);
             /* Màu kính mờ */
             --glass-border: rgba(255, 255, 255, 0.08);
-            /* Viền kính */
             --text: #ffffff;
             --text-muted: #a0a0b0;
         }
 
-        /* 2. CẤU HÌNH CƠ BẢN (RESET) */
         * {
             margin: 0;
             padding: 0;
@@ -402,21 +393,21 @@
             color: var(--secondary);
         }
 
+        /* Chỉnh lại Grid để chứa đẹp 5 thẻ (Free, Ngày, Tuần, Tháng, Mùa) */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 30px;
             padding: 20px 0;
         }
 
-        /* Thẻ Card Kính Mặc Định (Dùng cho Download & Pricing) */
         .glass-card {
             position: relative;
             background: #0b0b0f;
             border: 1px solid #1f1f25;
             border-radius: 24px;
             padding: 35px 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.4s;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -428,7 +419,6 @@
             box-shadow: 0 10px 40px -10px rgba(0, 242, 255, 0.3);
         }
 
-        /* Icon & Text trong Card */
         .glass-card i {
             font-size: 3rem;
             color: var(--primary);
@@ -452,7 +442,263 @@
             color: #888;
             font-size: 1rem;
             margin-bottom: 30px;
-            line-height: 1.5;
+        }
+
+        .price-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 15px 0 25px 0;
+            letter-spacing: 2px;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--primary);
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            position: relative;
+            display: inline-block;
+        }
+
+        .glass-card ul li {
+            list-style: none;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .glass-card[style*="dashed"] {
+            border: 1px dashed #444 !important;
+        }
+
+        .glass-card[style*="dashed"] .price-tag {
+            -webkit-text-stroke: 1px #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-card[style*="var(--secondary)"] {
+            border: 1px solid var(--secondary) !important;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.1) !important;
+        }
+
+        .glass-card[style*="var(--secondary)"] .price-tag {
+            -webkit-text-stroke: 1px var(--secondary);
+            text-shadow: 0 0 20px var(--secondary);
+        }
+
+        .btn-download {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            margin-top: auto;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            background: rgba(0, 242, 255, 0.05);
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-download:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-key {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            background: transparent;
+            padding: 0;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        .btn-key:hover {
+            color: #fff;
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        .btn-key:hover i {
+            transform: translateX(5px) scale(1.1);
+        }
+
+        .btn-key.free {
+            color: #fff;
+            text-shadow: none;
+        }
+
+        .btn-key.hot {
+            color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        .btn-key.hot:hover {
+            color: #fff;
+            text-shadow: 0 0 20px var(--secondary);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding-bottom: 20px;
+        }
+
+        .social-card {
+            display: flex;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-right: 20px;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .social-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .social-info p {
+            color: #888;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .social-action {
+            margin-left: auto;
+            color: #555;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+
+        .custom-zalo {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            transition: 0.3s;
+        }
+
+        .social-card.zalo:hover {
+            border-color: #0088ff;
+            box-shadow: 0 0 20px rgba(0, 136, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .social-card.zalo:hover .social-icon {
+            background: #0088ff;
+            box-shadow: 0 0 15px #0088ff;
+        }
+
+        .social-card.zalo:hover .custom-zalo {
+            filter: none;
+            transform: scale(1.1);
+        }
+
+        .social-card.zalo:hover .social-action {
+            color: #0088ff;
+        }
+
+        .social-card.tele:hover {
+            border-color: #29b6f6;
+            box-shadow: 0 0 20px rgba(41, 182, 246, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .social-card.tele:hover .social-icon {
+            background: #29b6f6;
+            color: #fff;
+            box-shadow: 0 0 15px #29b6f6;
+        }
+
+        .social-card.tele:hover .social-action {
+            color: #29b6f6;
+        }
+
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 50px;
+            background: #000;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-img {
+                order: -1;
+                margin-bottom: 40px;
+            }
+
+            .hero-img img {
+                max-width: 80%;
+            }
+
+            .mod-menu-overlay {
+                width: 180px;
+                right: 0;
+                font-size: 0.8rem;
+            }
+
+            .btn-group {
+                justify-content: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+
+            .social-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .social-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .social-action {
+                margin-left: 0;
+                margin-top: 15px;
+            }
         }
 
         /* =================================================================
@@ -606,6 +852,85 @@
         .btn-key.hot:hover {
             color: #fff;
             text-shadow: 0 0 20px var(--secondary);
+        }
+
+        /* =================================================================
+   CSS CHO NÚT MUA KEY / LẤY KEY (.btn-key)
+   ================================================================= */
+
+        /* 1. Style Chung (Mặc định cho các gói thường) */
+        .btn-key {
+            margin-top: auto;
+            /* Đẩy nút xuống đáy thẻ nếu nội dung trên ngắn */
+            display: inline-flex;
+            /* Flex để căn giữa icon và chữ */
+            align-items: center;
+            /* Căn giữa theo chiều dọc */
+            gap: 10px;
+            /* Khoảng cách giữa icon và chữ */
+            text-decoration: none;
+            /* Bỏ gạch chân */
+            font-weight: 600;
+            /* Chữ đậm vừa phải */
+            font-size: 1.1rem;
+            /* Cỡ chữ */
+            transition: all 0.3s ease;
+            /* Hiệu ứng chuyển động mượt */
+            background: transparent;
+            /* Nền trong suốt */
+            padding: 0;
+            /* Không padding để trông như Text Link */
+            cursor: pointer;
+            border: none;
+            /* Bỏ viền mặc định của button */
+
+            /* Màu sắc mặc định (Cyan Neon) */
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+            /* Phát sáng nhẹ */
+        }
+
+        /* 2. Hiệu ứng Icon bên trong */
+        .btn-key i {
+            font-size: 1.4rem;
+            /* Icon to hơn chữ một chút */
+            transition: 0.3s;
+            color: inherit;
+            /* Màu icon ăn theo màu chữ */
+            margin-bottom: 0 !important;
+        }
+        .btn-key:hover {
+            color: #fff;
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        .btn-key:hover i {
+            transform: translateX(5px) scale(1.1);
+        }
+        .btn-key.free {
+            color: #fff;
+            text-shadow: none;
+        }
+
+        .btn-key.free i {
+            color: var(--primary);
+        }
+
+        .btn-key.free:hover {
+            color: #ccc;
+            text-shadow: 0 0 10px #fff;
+        }
+
+        .btn-key.hot {
+            color: var(--secondary);
+            /* Màu hồng */
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        .btn-key.hot:hover {
+            color: #fff;
+            text-shadow: 0 0 20px var(--secondary);
+            /* Phát sáng màu hồng */
         }
 
         /* =================================================================
@@ -773,6 +1098,136 @@
                 margin-top: 15px;
             }
         }
+
+        /* CSS MODAL THANH TOÁN (MỚI) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+            overflow: hidden;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 700px;
+            background: #0f0f13;
+            border: 1px solid var(--primary);
+            display: flex !important;
+            flex-direction: column;
+            padding: 0 !important;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 8px;
+            top: -6px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+            gap: 30px;
+        }
+
+        .qr-box {
+            flex: 1;
+            text-align: center;
+            min-width: 250px;
+        }
+
+        .qr-code-img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+        }
+
+        .scan-hint {
+            margin-top: 10px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .payment-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 250px;
+        }
+
+        .info-row {
+            margin-bottom: 20px;
+        }
+
+        .info-row span:first-child {
+            display: block;
+            color: #aaa;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .highlight-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+@media (max-width: 768px) {
+    .modal-content {
+        max-height: 85vh;
+        overflow: hidden; /* đúng */
+        touch-action: pan-y;
+    }
+}
+@media (max-width: 768px) {
+    .modal-body {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+
+        /* FIX kéo không được */
+        touch-action: pan-y;
+    }
+}
+
+
+
+
+        
     </style>
 </head>
 
@@ -781,7 +1236,7 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">LQMB<span>VIP</span> 36</div>
+                <div class="logo">LQMB<span>VIP</span> </div>
             </nav>
         </div>
     </header>
@@ -794,48 +1249,39 @@
                         style="display:inline-block; background: var(--secondary); color:#fff; padding: 4px 12px; border-radius:4px; font-weight:bold; font-size:0.8rem; margin-bottom:15px; letter-spacing:1px;">
                         VERSION 8.0 UNLOCKED</div>
                     <h1><span class="glitch-text" data-text="MOD MENU">MOD MENU</span> <br> <span
-                            style="color:var(--primary)">LIÊN QUÂN 36</span></h1>
+                            style="color:var(--primary)">LIÊN QUÂN </span></h1>
                     <p>Kích hoạt bản năng sát thủ với bộ công cụ hỗ trợ leo rank đỉnh cao. Antiban 100%, hỗ trợ Map
                         sáng, Cam xa, và Aim Assist đa mục tiêu.</p>
-
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-crosshairs"></i> Auto Aim: Headshot / Chest</li>
                         <li><i class="fa-solid fa-eye"></i> Map View: Drone 3X</li>
                         <li><i class="fa-solid fa-bolt"></i> Unlock FPS: 120Hz Smooth</li>
                     </ul>
-
                     <div class="btn-group">
                         <a href="#download" class="btn"><i class="fa-solid fa-download"></i> Tải Menu</a>
                         <a href="#pricing" class="btn secondary">Xem Key</a>
                     </div>
                 </div>
-
                 <div class="hero-img animate-up">
                     <img src="https://res.cloudinary.com/dfzpwkldb/image/upload/v1769053625/Gemini_Generated_Image_1pinlt1pinlt1pin_t4pkas.png"
                         alt="Hero Character" style="border-radius: 20px;">
-
                     <div class="mod-menu-overlay">
                         <div class="menu-header"> <i class="fa-solid fa-robot"></i> HACK SETTINGS</div>
-                        <div class="menu-item">
-                            <span>Map Hack</span>
+                        <div class="menu-item"><span>Map Hack</span>
                             <div class="switch"></div>
                         </div>
-                        <div class="menu-item">
-                            <span>Cam Xa 3x</span>
+                        <div class="menu-item"><span>Cam Xa 3x</span>
                             <div class="switch"></div>
                         </div>
-                        <div class="menu-item">
-                            <span>Show CD</span>
+                        <div class="menu-item"><span>Show CD</span>
                             <div class="switch"></div>
                         </div>
-                        <div class="menu-item">
-                            <span>Aim Bot</span>
+                        <div class="menu-item"><span>Aim Bot</span>
                             <div class="switch"></div>
                         </div>
                         <div class="menu-item"
-                            style="border-top: 1px dashed #444; padding-top:10px; color: var(--primary);">
-                            <span>FPS: 118</span> <i class="fa-solid fa-signal"></i>
-                        </div>
+                            style="border-top: 1px dashed #444; padding-top:10px; color: var(--primary);"><span>FPS:
+                                118</span> <i class="fa-solid fa-signal"></i></div>
                     </div>
                 </div>
             </div>
@@ -848,35 +1294,27 @@
                 <h2>Link <span>Tải Hack</span></h2>
                 <p>Server Tốc Độ Cao – Tự Động Cập Nhật</p>
             </div>
-
             <div class="card-grid">
                 <div class="glass-card">
                     <i class="fa-brands fa-android"></i>
                     <h3>Mod Menu APK</h3>
                     <p>Cần gỡ game gốc. Menu nổi Tiếng Việt, đầy đủ tính năng. Antiban an toàn.</p>
-                    <a href="https://www.mediafire.com/file/46i7nhx5hxuzbuk/HACK_MAP_3.7.apk/file" class="btn-download"
-                        target="_blank">
-                        <i class="fa-solid fa-download"></i> Tải Ngay (APK)
-                    </a>
+                    <a href="#" class="btn-download" id="btn_dl_android" target="_blank"><i
+                            class="fa-solid fa-download"></i> Tải Ngay (APK)</a>
                 </div>
-
                 <div class="glass-card">
                     <i class="fa-brands fa-apple"></i>
                     <h3>iOS Mod</h3>
                     <p>Hỗ trợ cài trực tiếp qua Scarlet/Esign. Không cần Jailbreak máy.</p>
-                    <a href="https://link4m.com/WHobE8T" class="btn-download" target="_blank">
-                        <i class="fa-solid fa-download"></i> Tải Ngay (iOS)
-                    </a>
+                    <a href="#" class="btn-download" id="btn_dl_ios" target="_blank"><i
+                            class="fa-solid fa-download"></i> Tải Ngay (iOS)</a>
                 </div>
-
                 <div class="glass-card">
                     <i class="fa-solid fa-file-code"></i>
                     <h3>Mod APK Song Song</h3>
                     <p>Không cần gỡ game gốc. Menu nổi Tiếng Việt, đầy đủ tính năng. An toàn 100%.</p>
-                    <a href="https://www.mediafire.com/file/62ur4j52u34jrb5/HACK_MAP_V3.7_T%25C3%25A1ch_sign.apk/file"
-                        class="btn-download" target="_blank">
-                        <i class="fa-solid fa-download"></i> Tải Ngay (Clone)
-                    </a>
+                    <a href="#" class="btn-download" id="btn_dl_clone" target="_blank"><i
+                            class="fa-solid fa-download"></i> Tải Ngay (Clone)</a>
                 </div>
             </div>
         </div>
@@ -894,24 +1332,29 @@
                         style="position: absolute; top:0; left:0; background:#333; color:#fff; padding:5px 15px; font-size:0.7rem; border-bottom-right-radius: 10px; font-weight: bold;">
                         TEST</div>
                     <h3>Key Free</h3>
-                    <div class="price-tag" style="color: #ddd;">0Đ <small>/1h</small></div>
+                    <div class="price-tag" id="price_free" style="color: #ddd;">Đang tải...</div>
                     <ul style="list-style: none; margin-bottom: 20px; color: #aaa; font-size: 0.9rem;">
                         <li>• Vượt link quảng cáo</li>
-                        <li>• Hạn dùng: 1 - 4 Giờ</li>
+                        <li>• Hạn dùng: 1 DAY</li>
                         <li>• Đủ chức năng VIP</li>
                     </ul>
-                    <a href="https://yeulink.com/note/crJNyZ2wck" target="_blank" class="btn-key free">
-                        <i class="fa-solid fa-link"></i> Lấy Key Ngay
-                    </a>
+                    <a href="#" target="_blank" class="btn-key free" id="link_free"><i class="fa-solid fa-link"></i> Lấy
+                        Key Ngay</a>
                 </div>
 
                 <div class="glass-card">
                     <h3>Gói Ngày</h3>
-                    <div class="price-tag">5K</div>
+                    <div class="price-tag" id="price_day">Đang tải...</div>
                     <p>Test thử chức năng</p>
-                    <a href="LINK_ZALO_HOAC_FACEBOOK" target="_blank" class="btn-key">
-                        <i class="fa-solid fa-cart-shopping"></i> Mua Ngay
-                    </a>
+                    <button class="btn-key" id="btn_buy_day"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</button>
+                </div>
+
+                <div class="glass-card">
+                    <h3>Gói Tuần</h3>
+                    <div class="price-tag" id="price_week">Đang tải...</div>
+                    <p>Trải nghiệm trọn vẹn 7 ngày, giá ưu đãi.</p>
+                    <button class="btn-key" id="btn_buy_week"><i class="fa-solid fa-cart-shopping"></i> Mua
+                        Ngay</button>
                 </div>
 
                 <div class="glass-card"
@@ -920,66 +1363,248 @@
                         style="position: absolute; top:0; right:0; background:var(--secondary); padding:5px 10px; font-weight:bold; font-size:0.8rem; color: #fff;">
                         HOT</div>
                     <h3>Gói Tháng</h3>
-                    <div class="price-tag" style="text-shadow: 0 0 10px var(--secondary);">100K</div>
+                    <div class="price-tag" id="price_month" style="text-shadow: 0 0 10px var(--secondary);">Đang tải...
+                    </div>
                     <p>Leo rank Thách Đấu</p>
-                    <a href="LINK_ZALO_HOAC_FACEBOOK" target="_blank" class="btn-key hot">
-                        <i class="fa-solid fa-fire"></i> Mua Ngay
-                    </a>
+                    <button class="btn-key hot" id="btn_buy_month"><i class="fa-solid fa-fire"></i> Mua Ngay</button>
                 </div>
 
                 <div class="glass-card">
                     <h3>Gói Mùa</h3>
-                    <div class="price-tag">300K</div>
+                    <div class="price-tag" id="price_season">Đang tải...</div>
                     <p>Bảo hành reset mùa</p>
-                    <a href="LINK_ZALO_HOAC_FACEBOOK" target="_blank" class="btn-key">
-                        <i class="fa-solid fa-gem"></i> Mua Ngay
-                    </a>
+                    <button class="btn-key" id="btn_buy_season"><i class="fa-solid fa-gem"></i> Mua Ngay</button>
                 </div>
             </div>
         </div>
     </section>
+
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <span class="close-modal" onclick="closePayment()">&times;</span>
+            <div class="modal-header">
+                <h3>Thanh Toán & Nhận Key</h3>
+                <p>Hệ thống duyệt tự động sau 1-5 phút</p>
+            </div>
+            <div class="modal-body">
+                <div class="qr-box">
+                    <img id="qr_img" src="" alt="QR Code" class="qr-code-img">
+                    <p class="scan-hint" id="scan_hint_text">Nội dung CK: <b id="pay_syntax_display"
+                            style="color:var(--primary)">...</b></p>
+                </div>
+                <div class="payment-info">
+                    <div id="step_pay">
+                        <div class="info-row"><span>Số tiền cần thanh toán:</span><span id="pay_price"
+                                class="highlight-price">0đ</span></div>
+                        <p style="color:#888; font-size:0.9rem; margin-bottom:15px;">Sau khi chuyển khoản xong, hãy nhập
+                            <b>Mã Giao Dịch</b> (số màu đỏ trong nội dung CK) vào bên dưới để lấy Key.</p>
+                    </div>
+                    <div class="check-key-box"
+                        style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; border:1px dashed #555;">
+                        <label style="display:block; color:#fff; margin-bottom:5px; font-size:0.9rem;">Nhập Mã Giao
+                            Dịch:</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="input_trans_code" placeholder="Ví dụ: 1234"
+                                style="width:100%; padding:10px; border-radius:5px; border:1px solid #444; background:#000; color:#fff; font-weight:bold; text-align:center;">
+                            <button onclick="checkOrder()" class="btn-key"
+                                style="margin:0; width:auto; padding:0 15px;"><i
+                                    class="fa-solid fa-search"></i></button>
+                        </div>
+                        <div id="result_area" style="margin-top:15px; text-align:center; display:none;">
+                            <span style="color:#aaa; font-size:0.8rem;">Trạng thái:</span>
+                            <div id="status_text" style="font-weight:bold; margin-bottom:5px;">Checking...</div>
+                            <div id="key_display_box" style="display:none;">
+                                <div style="background:#222; padding:10px; border:1px solid var(--primary); color:var(--primary); font-family:monospace; font-size:1.2rem; word-break:break-all;"
+                                    id="final_key">KEY-WILL-APPEAR-HERE</div>
+                                <button onclick="copyKey()" class="btn-download"
+                                    style="margin-top:10px; font-size:0.8rem; padding:8px;"><i
+                                        class="fa-regular fa-copy"></i> Copy Key</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-actions" style="margin-top: 15px; text-align: center;">
+                        <a href="#" id="link_zalo_support" target="_blank"
+                            style="color:#888; font-size:0.8rem; text-decoration:none;"><i
+                                class="fa-solid fa-headset"></i> Gặp lỗi? Liên hệ Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section id="community" style="padding-top: 50px;">
         <div class="container">
             <div class="section-header">
                 <h2>Hỗ Trợ <span>Trực Tuyến</span></h2>
                 <p>Tham gia nhóm kín để nhận thông báo cập nhật & Fix lỗi 24/7</p>
             </div>
-
             <div class="social-grid">
-                <a href="https://zalo.me/g/pedqqy116" target="_blank" class="social-card zalo">
+                <a href="#" target="_blank" class="social-card zalo" id="link_zalo">
                     <div class="social-icon">
-                        <i class="fa-solid fa-comments"></i>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png"
+                            class="custom-zalo" alt="Zalo">
                     </div>
                     <div class="social-info">
                         <h3>Nhóm Zalo Box Chat</h3>
                         <p>Trao đổi, share config, support 1-1</p>
                     </div>
-                    <div class="social-action">
-                        <span>THAM GIA</span> <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="social-action"><span>THAM GIA</span> <i class="fa-solid fa-arrow-right"></i></div>
                 </a>
-
-                <a href="https://zalo.me/g/lhuype645" target="_blank" class="social-card tele">
-                    <div class="social-icon">
-                        <i class="fa-brands fa-telegram"></i>
-                    </div>
+                <a href="#" target="_blank" class="social-card tele" id="link_tele">
+                    <div class="social-icon"><i class="fa-brands fa-telegram"></i></div>
                     <div class="social-info">
                         <h3>Kênh ZALO VIP</h3>
                         <p>Thông báo update, tải file không quảng cáo</p>
                     </div>
-                    <div class="social-action">
-                        <span>THEO DÕI</span> <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                    <div class="social-action"><span>THEO DÕI</span> <i class="fa-solid fa-arrow-right"></i></div>
                 </a>
             </div>
         </div>
     </section>
+
     <footer>
         <div class="container">
             <p style="opacity: 0.7;">© 2026 LQMB IT DEV</p>
         </div>
     </footer>
 
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwLZHszgTmqd2KpHLDkRsHI06MOXU3U63jekUwnqaUwB9_5GNPDlRbCSngKZkEzBpIZ/exec';
+
+        // THÔNG TIN NGÂN HÀNG (SỬA LẠI)
+        const MY_BANK = 'MB';
+        const MY_STK = '075020699999';
+        const MY_NAME = 'DAO XUAN KHANH';
+
+        let globalDB = {};
+
+        async function fetchGameData() {
+            try {
+                console.log("🚀 Đang tải dữ liệu...");
+                const response = await fetch(API_URL);
+                globalDB = await response.json();
+                const updateText = (id, key) => { const el = document.getElementById(id); if (el && globalDB[key]) el.innerHTML = globalDB[key]; };
+                const updateLink = (id, key) => { const el = document.getElementById(id); if (el && globalDB[key]) el.href = globalDB[key]; };
+
+                updateText('price_free', 'price_free');
+                updateText('price_day', 'price_day');
+                updateText('price_week', 'price_week');
+                updateText('price_month', 'price_month');
+                updateText('price_season', 'price_season');
+
+                updateLink('link_free', 'link_free');
+                updateLink('btn_dl_android', 'link_android');
+                updateLink('btn_dl_ios', 'link_ios');
+                updateLink('btn_dl_clone', 'link_clone');
+                updateLink('link_zalo', 'link_zalo');
+                updateLink('link_tele', 'link_tele');
+
+                // Cập nhật link hỗ trợ trong Modal
+                const supportLink = document.getElementById('link_zalo_support');
+                if (supportLink && globalDB['link_zalo']) supportLink.href = globalDB['link_zalo'];
+
+                // --- LOGIC QUAN TRỌNG: GẮN SỰ KIỆN CHO CÁC NÚT MUA ---
+                // Khi bấm vào nút Ngày -> Popup hiện giá Ngày
+                setupBuyButton('btn_buy_day', 'Gói Ngày', 'price_day');
+                setupBuyButton('btn_buy_week', 'Gói Tuần', 'price_week');
+                setupBuyButton('btn_buy_month', 'Gói Tháng', 'price_month');
+                setupBuyButton('btn_buy_season', 'Gói Mùa', 'price_season');
+
+            } catch (error) {
+                console.error('🔥 Lỗi API:', error);
+            }
+        }
+
+        // HÀM GẮN SỰ KIỆN (Mấu chốt của việc hiện đúng giá)
+        function setupBuyButton(btnID, packageName, priceKey) {
+            const btn = document.getElementById(btnID);
+            if (!btn) return;
+
+            // Xóa thẻ a href cũ để không chuyển trang
+            btn.removeAttribute('href');
+            btn.style.cursor = "pointer";
+
+            // Khi click: Lấy giá hiện tại từ HTML (hoặc DB) -> Mở Popup
+            btn.onclick = function () {
+                // Lấy giá trị chữ (VD: "20K /tuần") từ thẻ HTML
+                let rawPrice = document.getElementById(priceKey).innerText;
+                // Chuyển thành số (20000)
+                let cleanPrice = parsePrice(rawPrice);
+
+                openPayment(packageName, cleanPrice);
+            };
+        }
+
+        function openPayment(title, amount) {
+            const modal = document.getElementById('paymentModal');
+            const transCode = Math.floor(1000 + Math.random() * 9000);
+            const syntax = "MOD36 " + transCode;
+
+            document.getElementById('pay_price').innerText = formatCurrency(amount);
+            document.getElementById('pay_syntax_display').innerText = syntax;
+            document.getElementById('input_trans_code').value = transCode;
+
+            const qrURL = `https://img.vietqr.io/image/${MY_BANK}-${MY_STK}-compact.jpg?amount=${amount}&addInfo=${syntax}&accountName=${encodeURIComponent(MY_NAME)}`;
+            document.getElementById('qr_img').src = qrURL;
+            document.getElementById('result_area').style.display = 'none';
+            modal.style.display = 'flex';
+        }
+
+        function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
+
+        async function checkOrder() {
+            const codeInput = document.getElementById('input_trans_code').value.trim();
+            const resultArea = document.getElementById('result_area');
+            const statusText = document.getElementById('status_text');
+            const keyBox = document.getElementById('key_display_box');
+            const finalKey = document.getElementById('final_key');
+
+            if (!codeInput) { alert("Vui lòng nhập Mã Giao Dịch!"); return; }
+
+            resultArea.style.display = 'block';
+            statusText.innerText = "🔄 Đang kết nối máy chủ...";
+            statusText.style.color = "#fff";
+            keyBox.style.display = 'none';
+
+            try {
+                const response = await fetch(API_URL);
+                const newData = await response.json();
+                const myKey = newData[codeInput];
+
+                if (myKey) {
+                    statusText.innerHTML = "✅ Giao dịch thành công!";
+                    statusText.style.color = "#0f0";
+                    finalKey.innerText = myKey;
+                    keyBox.style.display = 'block';
+                } else {
+                    statusText.innerHTML = "⏳ Đang chờ duyệt...<br><small>(Vui lòng đợi Admin cập nhật, thử lại sau 2 phút)</small>";
+                    statusText.style.color = "orange";
+                }
+            } catch (e) {
+                statusText.innerText = "❌ Lỗi kết nối. Vui lòng thử lại.";
+                statusText.style.color = "red";
+            }
+        }
+
+        function copyKey() {
+            const text = document.getElementById('final_key').innerText;
+            navigator.clipboard.writeText(text);
+            alert("Đã sao chép Key!");
+        }
+
+        function parsePrice(str) {
+            if (!str) return 0;
+            let num = str.replace(/[^0-9]/g, '');
+            if (str.toLowerCase().includes('k')) num = parseInt(num) * 1000;
+            return num;
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchGameData);
+    </script>
 </body>
 
 </html>
