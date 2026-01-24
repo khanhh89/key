@@ -1577,4 +1577,76 @@
 
 .music-toggle.playing .music-waves {
     opacity: 1; /* Hiện sóng nhạc */
+
+}
+
+/* =================================================================
+   FIX LỖI GIAO DIỆN MOBILE (RESPONSIVE FIX)
+   ================================================================= */
+@media (max-width: 768px) {
+    /* 1. Sắp xếp lại bố cục: Ảnh và Menu xếp dọc */
+    .hero-content {
+        display: flex;
+        flex-direction: column; /* Xếp dọc */
+        align-items: center;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    /* Đảo thứ tự: Để Ảnh + Menu lên trên, Chữ xuống dưới (nếu muốn) */
+    /* Nếu bạn muốn giữ chữ ở trên thì xóa dòng 'order: -1' bên dưới đi */
+    .hero-img {
+        order: -1; 
+        perspective: none; /* Tắt chiều sâu 3D để đỡ lỗi */
+        width: 100%;
+        display: flex;
+        flex-direction: column; /* Ảnh nằm trên, Menu nằm dưới */
+        align-items: center;
+        margin-bottom: 40px;
+        height: auto;
+    }
+
+    /* 2. Chỉnh lại Ảnh tướng */
+    .hero-img img {
+        width: 85%; /* Ảnh nhỏ lại chút cho vừa màn hình */
+        max-width: 350px;
+        transform: none !important; /* Tắt xoay nghiêng */
+        animation: none; /* Tắt hiệu ứng bay lắc cho đỡ rối */
+        margin-bottom: -30px; /* Kéo Menu đè nhẹ lên ảnh cho đẹp */
+        z-index: 1; /* Ảnh nằm dưới */
+        position: relative;
+    }
+
+    /* 3. Chỉnh lại Menu Lửa (QUAN TRỌNG NHẤT) */
+    .fire-wrapper {
+        position: relative; /* Đổi từ Absolute sang Relative để không bị bay lung tung */
+        top: 0;
+        right: auto;
+        left: auto;
+        
+        width: 90%; /* Chiếm 90% chiều ngang màn hình */
+        max-width: 340px;
+        
+        transform: none !important; /* Tắt nghiêng 3D */
+        animation: none; /* Tắt rung lắc */
+        margin: 0 auto; /* Căn giữa tuyệt đối */
+        z-index: 10; /* Đè lên trên ảnh */
+    }
+
+    /* Chỉnh lại ngọn lửa cho gọn gàng */
+    .fire-flames {
+        width: 100%;
+        left: 0;
+        bottom: -5px;
+    }
+
+    /* Chỉnh lại chữ tiêu đề cho đỡ to quá */
+    .hero-text h1 {
+        font-size: 2.5rem;
+        margin-top: 20px;
+    }
+    
+    .btn-group {
+        justify-content: center; /* Căn giữa nút bấm */
+    }
 }
