@@ -144,8 +144,16 @@ async function checkOrder() {
 function copyKey() {
     const text = document.getElementById('final_key').innerText;
     navigator.clipboard.writeText(text);
-    alert("Đã sao chép Key!");
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Sao chép thành công!',
+        text: 'Key đã được lưu vào clipboard',
+        timer: 1500,
+        showConfirmButton: false
+    });
 }
+
 
 function parsePrice(str) {
     if (!str) return 0;
@@ -158,7 +166,6 @@ function formatCurrency(num) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
 }
 
-// --- 3. HIỆU ỨNG HẠT SPARKS ---
 function createParticles() {
     const container = document.getElementById('particles-js');
     if (!container) return; // Kiểm tra lỗi nếu không có div
