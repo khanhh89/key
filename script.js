@@ -145,13 +145,12 @@ function copyKey() {
     const text = document.getElementById('final_key').innerText;
     navigator.clipboard.writeText(text);
 
-    Swal.fire({
-        icon: 'success',
-        title: 'Sao chép thành công!',
-        text: 'Key đã được lưu vào clipboard',
-        timer: 1500,
-        showConfirmButton: false
-    });
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
 }
 
 
@@ -191,3 +190,4 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();
     createParticles();
 });
+
