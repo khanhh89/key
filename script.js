@@ -14,55 +14,53 @@ async function fetchGameData() {
         const response = await fetch(API_URL);
         const result = await response.json();
 
-        // Kiểm tra cấu trúc: Nếu có thuộc tính data thì lấy, không thì lấy trực tiếp
-        globalDB = (result.status === 'success' && result.data) ? result.data : result;
-        
-        console.log("Dữ liệu nhận được:", globalDB);
+        // Bóc tách dữ liệu từ thuộc tính .data của API mới
+        if (result.status === 'success' && result.data) {
+            globalDB = result.data;
+        } else {
+            globalDB = result; 
+        }
 
-        // Cập nhật giá tiền & Link tải
+        console.log("Dữ liệu thực tế:", globalDB);
+
+        // Hàm cập nhật nội dung văn bản (Giá tiền)
         const updateText = (id, key) => { 
             const el = document.getElementById(id); 
             if (el && globalDB[key]) el.innerHTML = globalDB[key]; 
         };
+
+        // Hàm cập nhật đường dẫn (Link tải)
         const updateLink = (id, key) => { 
             const el = document.getElementById(id); 
             if (el && globalDB[key]) el.href = globalDB[key]; 
         };
 
-        // Cập nhật các ID hiển thị
+        // Cập nhật Link Free và các link tải khác
+        updateLink('link_free', 'link_free'); // Đảm bảo ID trong HTML là 'link_free'
+        updateLink('btn_dl_android', 'link_android');
+        updateLink('btn_dl_ios', 'link_ios');
+        updateLink('btn_dl_clone', 'link_clone');
+
+        // Cập nhật giá các gói
         updateText('price_free', 'price_free');
         updateText('price_day', 'price_day');
         updateText('price_week', 'price_week');
         updateText('price_month', 'price_month');
         updateText('price_season', 'price_season');
 
-        updateLink('link_free', 'link_free');
-        updateLink('btn_dl_android', 'link_android');
-        updateLink('btn_dl_ios', 'link_ios');
-        updateLink('btn_dl_clone', 'link_clone');
-        updateLink('link_zalo', 'link_zalo');
-        updateLink('link_tele', 'link_tele');
+        // Cập nhật link hỗ trợ và nhạc nền
+        if (globalDB['link_zalo']) {
+            const supportLink = document.getElementById('link_zalo_support');
+            if (supportLink) supportLink.href = globalDB['link_zalo'];
+        }
 
-        // Link hỗ trợ Modal
-        const supportLink = document.getElementById('link_zalo_support');
-        if (supportLink && globalDB['link_zalo']) supportLink.href = globalDB['link_zalo'];
-
-        // --- XỬ LÝ NHẠC NỀN TỰ ĐỘNG ---
-        // Lấy link nhạc từ cột 'link_music' trong Sheet
         if (globalDB['link_music']) {
             const audio = document.getElementById('bgMusic');
             if (audio) {
                 audio.src = globalDB['link_music'];
-                audio.volume = 0.5; // Âm lượng 50%
                 autoPlayMusic(audio);
             }
         }
-
-        // --- GẮN SỰ KIỆN NÚT MUA ---
-        setupBuyButton('btn_buy_day', 'Gói Ngày', 'price_day');
-        setupBuyButton('btn_buy_week', 'Gói Tuần', 'price_week');
-        setupBuyButton('btn_buy_month', 'Gói Tháng', 'price_month');
-        setupBuyButton('btn_buy_season', 'Gói Mùa', 'price_season');
 
     } catch (error) {
         console.error('🔥 Lỗi API:', error);
@@ -202,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();
     createParticles();
 });
+
 
 
 
