@@ -1,4 +1,4 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbwLZHszgTmqd2KpHLDkRsHI06MOXU3U63jekUwnqaUwB9_5GNPDlRbCSngKZkEzBpIZ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwKOACDKu8z_oKFeqbU9AgETwt6mSAVHD_ny0Yx4NaYOBJhCFtkJlGL1tA29lT1-bw1iQ/exec';
 
 // THÔNG TIN NGÂN HÀNG
 const MY_BANK = 'MB';
@@ -190,4 +190,5 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();
     createParticles();
 });
+
 
