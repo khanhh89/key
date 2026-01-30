@@ -12,12 +12,24 @@ async function fetchGameData() {
     try {
         console.log("🚀 Đang tải dữ liệu...");
         const response = await fetch(API_URL);
-        globalDB = await response.json();
+        const result = await response.json();
+
+        // Kiểm tra cấu trúc: Nếu có thuộc tính data thì lấy, không thì lấy trực tiếp
+        globalDB = (result.status === 'success' && result.data) ? result.data : result;
+        
+        console.log("Dữ liệu nhận được:", globalDB);
 
         // Cập nhật giá tiền & Link tải
-        const updateText = (id, key) => { const el = document.getElementById(id); if (el && globalDB[key]) el.innerHTML = globalDB[key]; };
-        const updateLink = (id, key) => { const el = document.getElementById(id); if (el && globalDB[key]) el.href = globalDB[key]; };
+        const updateText = (id, key) => { 
+            const el = document.getElementById(id); 
+            if (el && globalDB[key]) el.innerHTML = globalDB[key]; 
+        };
+        const updateLink = (id, key) => { 
+            const el = document.getElementById(id); 
+            if (el && globalDB[key]) el.href = globalDB[key]; 
+        };
 
+        // Cập nhật các ID hiển thị
         updateText('price_free', 'price_free');
         updateText('price_day', 'price_day');
         updateText('price_week', 'price_week');
@@ -190,5 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();
     createParticles();
 });
+
 
 
