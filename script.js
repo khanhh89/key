@@ -152,7 +152,7 @@ async function checkOrder() {
             finalKey.innerText = myKey;
             keyBox.style.display = 'block';
         } else {
-            statusText.innerHTML = "⏳ Đang chờ duyệt...<br><small>(Vui lòng đợi Admin cập nhật, thử lại sau 2 phút)</small>";
+            statusText.innerHTML = "⏳ Đang chờ duyệt...<br><small>(Vui lòng đợi hệ thống trả về, thử lại sau 2 phút)</small>";
             statusText.style.color = "orange";
         }
     } catch (e) {
@@ -207,4 +207,5 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();
     createParticles();
 });
+
 
