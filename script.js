@@ -1,4 +1,4 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbwKOACDKu8z_oKFeqbU9AgETwt6mSAVHD_ny0Yx4NaYOBJhCFtkJlGL1tA29lT1-bw1iQ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxKOACDKu8z_oKFeqbU9AgETwt6mSAVHD_ny0Yx4NaYOBJhCFtkJlGL1tA29lT1-bw1iQ/exec';
 
 // THÔNG TIN NGÂN HÀNG
 const MY_BANK = 'MB';
@@ -35,20 +35,19 @@ async function fetchGameData() {
             if (el && globalDB[key]) el.href = globalDB[key]; 
         };
 
-        // Cập nhật Link Free và các link tải khác
-        updateLink('link_free', 'link_free'); // Đảm bảo ID trong HTML là 'link_free'
+        // Cập nhật Link và Giá
+        updateLink('link_free', 'link_free');
         updateLink('btn_dl_android', 'link_android');
         updateLink('btn_dl_ios', 'link_ios');
         updateLink('btn_dl_clone', 'link_clone');
 
-        // Cập nhật giá các gói
         updateText('price_free', 'price_free');
         updateText('price_day', 'price_day');
         updateText('price_week', 'price_week');
         updateText('price_month', 'price_month');
         updateText('price_season', 'price_season');
 
-        // Cập nhật link hỗ trợ và nhạc nền
+        // Cập nhật hỗ trợ và nhạc
         if (globalDB['link_zalo']) {
             const supportLink = document.getElementById('link_zalo_support');
             if (supportLink) supportLink.href = globalDB['link_zalo'];
@@ -62,6 +61,12 @@ async function fetchGameData() {
             }
         }
 
+        // --- SỬA ĐỔI CHÍNH: GẮN SỰ KIỆN NÚT MUA TƯƠNG ỨNG ---
+        setupBuyButton('btn_buy_day', 'Gói Ngày', 'price_day');
+        setupBuyButton('btn_buy_week', 'Gói Tuần', 'price_week');
+        setupBuyButton('btn_buy_month', 'Gói Tháng', 'price_month');
+        setupBuyButton('btn_buy_season', 'Gói Mùa', 'price_season');
+
     } catch (error) {
         console.error('🔥 Lỗi API:', error);
     }
@@ -69,20 +74,16 @@ async function fetchGameData() {
 
 // --- HÀM XỬ LÝ AUTOPLAY THÔNG MINH ---
 function autoPlayMusic(audio) {
-    // Cố gắng phát nhạc ngay lập tức
     const playPromise = audio.play();
-
     if (playPromise !== undefined) {
         playPromise.then(_ => {
             console.log("✅ Nhạc đã tự động phát thành công!");
         }).catch(error => {
-            console.log("⚠️ Trình duyệt chặn Autoplay. Đang chờ người dùng tương tác...");
-            // NẾU BỊ CHẶN: Gắn sự kiện click vào TOÀN BỘ TRANG WEB
-            // Chỉ cần người dùng bấm bất kỳ đâu 1 lần là nhạc sẽ chạy
+            console.log("⚠️ Trình duyệt chặn Autoplay. Chờ tương tác...");
             document.addEventListener('click', () => {
                 audio.play();
-                console.log("✅ Đã kích hoạt nhạc sau khi click!");
-            }, { once: true }); // 'once: true' nghĩa là sự kiện này chỉ chạy 1 lần rồi tự hủy
+                console.log("✅ Đã kích hoạt nhạc!");
+            }, { once: true });
         });
     }
 }
@@ -91,12 +92,17 @@ function autoPlayMusic(audio) {
 function setupBuyButton(btnID, packageName, priceKey) {
     const btn = document.getElementById(btnID);
     if (!btn) return;
-    btn.removeAttribute('href');
+    
+    btn.removeAttribute('href'); // Loại bỏ link cũ
     btn.style.cursor = "pointer";
     btn.onclick = function () {
-        let rawPrice = document.getElementById(priceKey).innerText;
-        let cleanPrice = parsePrice(rawPrice);
-        openPayment(packageName, cleanPrice);
+        // Lấy giá trị đang hiển thị trên giao diện của gói đó
+        const priceElement = document.getElementById(priceKey);
+        if (priceElement) {
+            let rawPrice = priceElement.innerText;
+            let cleanPrice = parsePrice(rawPrice);
+            openPayment(packageName, cleanPrice);
+        }
     };
 }
 
@@ -105,12 +111,15 @@ function openPayment(title, amount) {
     const transCode = Math.floor(1000 + Math.random() * 9000);
     const syntax = "MOD36 " + transCode;
 
+    // Hiển thị giá và nội dung thanh toán vào Modal
     document.getElementById('pay_price').innerText = formatCurrency(amount);
     document.getElementById('pay_syntax_display').innerText = syntax;
     document.getElementById('input_trans_code').value = transCode;
 
+    // Tạo mã QR động dựa trên số tiền của gói đã chọn
     const qrURL = `https://img.vietqr.io/image/${MY_BANK}-${MY_STK}-compact.jpg?amount=${amount}&addInfo=${syntax}&accountName=${encodeURIComponent(MY_NAME)}`;
     document.getElementById('qr_img').src = qrURL;
+    
     document.getElementById('result_area').style.display = 'none';
     modal.style.display = 'flex';
 }
@@ -133,8 +142,9 @@ async function checkOrder() {
 
     try {
         const response = await fetch(API_URL);
-        const newData = await response.json();
-        const myKey = newData[codeInput];
+        const result = await response.json();
+        const data = result.data || result; // Hỗ trợ cả 2 định dạng API
+        const myKey = data[codeInput];
 
         if (myKey) {
             statusText.innerHTML = "✅ Giao dịch thành công!";
@@ -154,21 +164,18 @@ async function checkOrder() {
 function copyKey() {
     const text = document.getElementById('final_key').innerText;
     navigator.clipboard.writeText(text);
-
     const toast = document.getElementById('toast');
-    toast.classList.add('show');
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2000);
+    if(toast) {
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 2000);
+    }
 }
-
 
 function parsePrice(str) {
     if (!str) return 0;
     let num = str.replace(/[^0-9]/g, '');
     if (str.toLowerCase().includes('k')) num = parseInt(num) * 1000;
-    return num;
+    return parseInt(num);
 }
 
 function formatCurrency(num) {
@@ -177,7 +184,7 @@ function formatCurrency(num) {
 
 function createParticles() {
     const container = document.getElementById('particles-js');
-    if (!container) return; // Kiểm tra lỗi nếu không có div
+    if (!container) return;
     const particleCount = 50; 
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -200,7 +207,3 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();
     createParticles();
 });
-
-
-
-
