@@ -194,13 +194,66 @@
           </div>
           <div class="payment-info">
             <div id="step_pay">
-              <div class="info-row">
-                <span>Số tiền cần thanh toán:</span
-                ><span id="pay_price" class="highlight-price">0đ</span>
+              <div
+                class="coupon-box"
+                style="
+                  margin-bottom: 15px;
+                  background: rgba(255, 255, 255, 0.05);
+                  padding: 10px;
+                  border-radius: 8px;
+                "
+              >
+                <label
+                  style="
+                    display: block;
+                    color: #ccc;
+                    font-size: 0.8rem;
+                    margin-bottom: 5px;
+                  "
+                  >Mã giảm giá (nếu có):</label
+                >
+                <div style="display: flex; gap: 5px">
+                  <input
+                    type="text"
+                    id="coupon_input"
+                    placeholder="Ví dụ: GIAM20"
+                    style="
+                      flex: 1;
+                      padding: 8px;
+                      border-radius: 4px;
+                      border: 1px solid #444;
+                      background: #111;
+                      color: #fff;
+                      font-size: 0.9rem;
+                    "
+                  />
+                  <button
+                    onclick="applyCoupon()"
+                    style="
+                      padding: 0 15px;
+                      border-radius: 4px;
+                      border: none;
+                      background: var(--primary);
+                      color: #000;
+                      font-weight: bold;
+                      cursor: pointer;
+                    "
+                  >
+                    Áp dụng
+                  </button>
+                </div>
+                <p
+                  id="coupon_msg"
+                  style="font-size: 0.75rem; margin-top: 5px; min-height: 1em"
+                ></p>
               </div>
+              <div class="info-row">
+                <span>Số tiền cần thanh toán:</span>
+                <span id="pay_price" class="highlight-price">0đ</span>
+              </div>
+
               <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px">
-                Sau khi chuyển khoản xong, hãy nhập <b>Mã Giao Dịch</b> (số màu
-                đỏ trong nội dung CK) vào bên dưới để lấy Key.
+                Sau khi chuyển khoản xong, hãy nhập <b>Mã Giao Dịch</b>...
               </p>
             </div>
             <div

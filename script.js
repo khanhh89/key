@@ -195,8 +195,6 @@ async function checkOrder() {
         statusText.innerText = "❌ Lỗi kết nối máy chủ!";
     }
 }
-
-// Hàm bổ trợ để tạo hiệu ứng khi tìm thấy key (tùy chọn)
 function confettiEffect() {
     console.log("Chúc mừng! Bạn đã nhận được key.");
 }
@@ -245,7 +243,39 @@ function createParticles() {
         container.appendChild(particle);
     }
 }
+async function applyCoupon() {
+    const code = document.getElementById('coupon_input').value.trim();
+    const msg = document.getElementById('coupon_msg');
+    const priceDisplay = document.getElementById('pay_price');
+    
+    if (!code) return;
 
+    msg.style.color = "#aaa";
+    msg.innerText = "⌛ Đang kiểm tra...";
+
+    try {
+        const originalPrice = parseInt(priceDisplay.innerText.replace(/[^0-9]/g, ""));
+        const response = await fetch(`${API_URL}?action=check_coupon&code=${code}&price=${originalPrice}`);
+        const result = await response.json();
+
+        if (result.status === "success") {
+            msg.style.color = "#00ff00";
+            msg.innerText = `✅ ${result.message}`;
+            priceDisplay.innerText = result.newPrice.toLocaleString() + "đ";
+            
+            // 2. Cập nhật lại QR Code với số tiền đã giảm
+            // Hàm updateQR của bạn cần nhận tham số số tiền mới
+            if (typeof updateQR === "function") {
+                updateQR(result.newPrice);
+            }
+        } else {
+            msg.style.color = "#ff4444";
+            msg.innerText = result.message;
+        }
+    } catch (e) {
+        msg.innerText = "❌ Lỗi kết nối!";
+    }
+}
 // Khởi chạy
 document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();
