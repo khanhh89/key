@@ -276,6 +276,118 @@ async function applyCoupon() {
         msg.innerText = "❌ Lỗi kết nối!";
     }
 }
+//vòng quay may mắn
+const rewards = [
+  { label: "Mã 10K", color: "#ff6b6b" },
+  { label: "Mã 20K", color: "#feca57" },
+  { label: "Mã 50K", color: "#48dbfb" },
+  { label: "Thêm 1 Ngày", color: "#1dd1a1" },
+  { label: "Mã 100K", color: "#c8d6e5" },
+  { label: "Chúc may mắn", color: "#576574" }
+];
+
+
+function drawWheel() {
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const arc = Math.PI / (rewards.length / 2);
+
+    ctx.clearRect(0,0,380,380);
+    rewards.forEach((item, i) => {
+        const angle = i * arc;
+        ctx.beginPath();
+        ctx.fillStyle = item.color;
+        ctx.moveTo(190, 190);
+        ctx.arc(190, 190, 180, angle, angle + arc);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.1)"; ctx.stroke();
+
+        ctx.save();
+        ctx.translate(190, 190);
+        ctx.rotate(angle + arc/2);
+        ctx.fillStyle = "white";
+        ctx.font = "bold 14px Montserrat";
+        ctx.fillText(item.label, 90, 5);
+        ctx.restore();
+    });
+}
+let currentRotation = 0;
+let spinning = false;
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function startSpin() {
+  if (spinning) return;
+  spinning = true;
+
+  const wheel = document.getElementById("wheel");
+  const btn = document.getElementById("spin-btn");
+  btn.disabled = true;
+
+  const sliceDeg = 360 / rewards.length;
+
+  // quay ngẫu nhiên (không biết trước trúng gì)
+  const rounds = Math.floor(Math.random() * 4) + 8;
+  const randomDeg = Math.random() * 360;
+
+  const totalRotation =
+    currentRotation + rounds * 360 + randomDeg;
+
+  const duration = 5500;
+  const start = performance.now();
+
+  function animate(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = easeOutCubic(progress);
+
+    const angle =
+      currentRotation +
+      (totalRotation - currentRotation) * eased;
+
+    wheel.style.transform = `rotate(${angle}deg)`;
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      currentRotation = totalRotation % 360;
+      spinning = false;
+      btn.disabled = false;
+
+      // 🎯 TÍNH Ô TRÚNG
+      const index = Math.floor(
+        ((360 - currentRotation + 180) % 360) / sliceDeg
+      );
+
+      const reward = rewards[index];
+      showToast(`🎁 Bạn trúng: <b>${reward.label}</b>`);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// Khởi tạo lần đầu
+window.onload = () => { drawWheel(); };
+
+function toggleWheelModal() {
+    const m = document.getElementById('wheel-modal');
+    m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+}
+function showToast(message) {
+  const container = document.getElementById("toast-container");
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerHTML = message;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 7700);
+}
+
 // Khởi chạy
 document.addEventListener('DOMContentLoaded', () => {
     fetchGameData();

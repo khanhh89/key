@@ -394,6 +394,35 @@
       </div>
     </footer>
     <div id="toast" class="toast">Đã sao chép Key!</div>
+<div id="wheel-trigger" onclick="toggleWheelModal()">
+    <div class="glow-point"></div>
+    <img src="https://cdn-icons-png.flaticon.com/512/610/610106.png" alt="Lucky Wheel">
+    <span class="spin-count">1</span>
+</div>
+
+<div id="wheel-modal" class="modal-overlay">
+    <div class="glass-card">
+        <button class="close-btn" onclick="toggleWheelModal()">&times;</button>
+        
+        <div class="modal-header">
+            <h2>LUCKY SPIN</h2>
+            <p>Thử vận may - Nhận quà hay</p>
+        </div>
+
+        <div class="wheel-main">
+            <div class="wheel-outer">
+                <div class="pointer-neon"></div>
+                <canvas id="wheel" width="380" height="380"></canvas>
+                <div class="wheel-center">
+                    <div class="center-inner"></div>
+                </div>
+            </div>
+        </div>
+
+        <button id="spin-btn" onclick="startSpin()">QUAY NGAY!</button>
+    </div>
+</div>
+<div id="toast-container"></div>
     <script src="script.js"></script>
   </body>
 </html>
