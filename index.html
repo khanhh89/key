@@ -1,267 +1,346 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Liên Quân Mobile | Mod Menu VIP</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
 
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-<audio id="bgMusic" loop hidden></audio>
+  <body>
+    <audio id="bgMusic" loop hidden></audio>
     <div class="screen-overlay"></div>
     <div id="particles-js"></div>
     <div class="fog-container">
-        <div class="fog-img"></div>
-        <div class="fog-img fog-img-second"></div>
+      <div class="fog-img"></div>
+      <div class="fog-img fog-img-second"></div>
     </div>
     <header>
-        <div class="container">
-            <nav>
-                <div class="logo">LQMB<span>VIP</span> </div>
-            </nav>
-        </div>
+      <div class="container">
+        <nav>
+          <div class="logo">LQMB<span>VIP</span></div>
+        </nav>
+      </div>
     </header>
     <div class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text animate-up">
-                    <div
-                        style="display:inline-block; background: var(--secondary); color:#fff; padding: 4px 12px; border-radius:4px; font-weight:bold; font-size:0.8rem; margin-bottom:15px; letter-spacing:1px;">
-                        VERSION 8.0 UNLOCKED</div>
-                    <h1><span class="glitch-text" data-text="MOD MENU">MOD MENU</span> <br> <span
-                            style="color:var(--primary)">LIÊN QUÂN </span></h1>
-                    <p>Kích hoạt bản năng sát thủ với bộ công cụ hỗ trợ leo rank đỉnh cao. Antiban 100%, hỗ trợ Map
-                        sáng, Cam xa, và Aim Assist đa mục tiêu.</p>
-                    <ul class="feature-list">
-                        <li><i class="fa-solid fa-crosshairs"></i> Auto Aim: Headshot / Chest</li>
-                        <li><i class="fa-solid fa-eye"></i> Map View: Drone 3X</li>
-                        <li><i class="fa-solid fa-bolt"></i> Unlock FPS: 120Hz Smooth</li>
-                    </ul>
-                    <div class="btn-group">
-                        <a href="#download" class="btn"><i class="fa-solid fa-download"></i> Tải Menu</a>
-                        <a href="#pricing" class="btn secondary">Xem Key</a>
-                    </div>
-                </div>
-                <div class="hero-img animate-up">
-                    <img src="https://res.cloudinary.com/dfzpwkldb/image/upload/v1769053625/Gemini_Generated_Image_1pinlt1pinlt1pin_t4pkas.png"
-                        alt="Hero Character" style="border-radius: 20px;">
-                    <div class="fire-wrapper">
-                        <div class="fire-flames"></div>
-                        <div class="mod-menu-overlay">
-                            <div class="menu-header"> <i class="fa-solid fa-robot"></i> HACK SETTINGS</div>
-                            <div class="menu-item"><span>Map Hack</span>
-                                <div class="switch"></div>
-                            </div>
-                            <div class="menu-item"><span>Cam Xa 3x</span>
-                                <div class="switch"></div>
-                            </div>
-                            <div class="menu-item"><span>Show CD</span>
-                                <div class="switch"></div>
-                            </div>
-                            <div class="menu-item"><span>Aim Bot</span>
-                                <div class="switch"></div>
-                            </div>
-                            <div class="menu-item"
-                                style="border-top: 1px dashed #444; padding-top:10px; color: var(--primary);"><span>FPS:
-                                    118</span> <i class="fa-solid fa-signal"></i></div>
-                        </div>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text animate-up">
+            <div
+              style="
+                display: inline-block;
+                background: var(--secondary);
+                color: #fff;
+                padding: 4px 12px;
+                border-radius: 4px;
+                font-weight: bold;
+                font-size: 0.8rem;
+                margin-bottom: 15px;
+                letter-spacing: 1px;
+              "
+            >
+              VERSION 8.0 UNLOCKED
             </div>
+            <h1>
+              <span class="glitch-text" data-text="MOD MENU">MOD MENU</span>
+              <br />
+              <span style="color: var(--primary)">LIÊN QUÂN </span>
+            </h1>
+            <p>
+              Kích hoạt bản năng sát thủ với bộ công cụ hỗ trợ leo rank đỉnh
+              cao. Antiban 100%, hỗ trợ Map sáng, Cam xa, và Aim Assist đa mục
+              tiêu.
+            </p>
+            <ul class="feature-list">
+              <li>
+                <i class="fa-solid fa-crosshairs"></i> Auto Aim: Headshot /
+                Chest
+              </li>
+              <li><i class="fa-solid fa-eye"></i> Map View: Drone 3X</li>
+              <li><i class="fa-solid fa-bolt"></i> Unlock FPS: 120Hz Smooth</li>
+            </ul>
+            <div class="btn-group">
+              <a href="#download" class="btn"
+                ><i class="fa-solid fa-download"></i> Tải Menu</a
+              >
+              <a href="#pricing" class="btn secondary">Xem Key</a>
+            </div>
+          </div>
+          <div class="hero-img animate-up">
+            <img
+              src="https://res.cloudinary.com/dfzpwkldb/image/upload/v1769053625/Gemini_Generated_Image_1pinlt1pinlt1pin_t4pkas.png"
+              alt="Hero Character"
+              style="border-radius: 20px"
+            />
+            <div class="fire-wrapper">
+              <div class="fire-flames"></div>
+              <div class="mod-menu-overlay">
+                <div class="menu-header">
+                  <i class="fa-solid fa-robot"></i> HACK SETTINGS
+                </div>
+                <div class="menu-item">
+                  <span>Map Hack</span>
+                  <div class="switch"></div>
+                </div>
+                <div class="menu-item">
+                  <span>Cam Xa 3x</span>
+                  <div class="switch"></div>
+                </div>
+                <div class="menu-item">
+                  <span>Show CD</span>
+                  <div class="switch"></div>
+                </div>
+                <div class="menu-item">
+                  <span>Aim Bot</span>
+                  <div class="switch"></div>
+                </div>
+                <div
+                  class="menu-item"
+                  style="
+                    border-top: 1px dashed #444;
+                    padding-top: 10px;
+                    color: var(--primary);
+                  "
+                >
+                  <span>FPS: 118</span> <i class="fa-solid fa-signal"></i>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <section id="download">
-        <div class="container">
-            <div class="section-header">
-                <h2>Link <span>Tải Hack</span></h2>
-                <p>Server Tốc Độ Cao – Tự Động Cập Nhật</p>
-            </div>
-            <div class="card-grid">
-                <div class="glass-card">
-                    <i class="fa-brands fa-android"></i>
-                    <h3>Mod Menu APK</h3>
-                    <p>Cần gỡ game gốc. Menu nổi Tiếng Việt, đầy đủ tính năng. Antiban an toàn.</p>
-                    <a href="#" class="btn-download" id="btn_dl_android" target="_blank"><i
-                            class="fa-solid fa-download"></i> Tải Ngay (APK)</a>
-                </div>
-                <div class="glass-card">
-                    <i class="fa-brands fa-apple"></i>
-                    <h3>iOS Mod</h3>
-                    <p>Hỗ trợ cài trực tiếp qua Scarlet/Esign. Không cần Jailbreak máy.</p>
-                    <a href="#" class="btn-download" id="btn_dl_ios" target="_blank"><i
-                            class="fa-solid fa-download"></i> Tải Ngay (iOS)</a>
-                </div>
-                <div class="glass-card">
-                    <i class="fa-solid fa-file-code"></i>
-                    <h3>Mod APK Song Song</h3>
-                    <p>Không cần gỡ game gốc. Menu nổi Tiếng Việt, đầy đủ tính năng. An toàn 100%.</p>
-                    <a href="#" class="btn-download" id="btn_dl_clone" target="_blank"><i
-                            class="fa-solid fa-download"></i> Tải Ngay (Clone)</a>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Link <span>Tải Hack</span></h2>
+          <p>Server Tốc Độ Cao – Tự Động Cập Nhật</p>
         </div>
+        <div class="card-grid">
+          <div class="glass-card">
+            <i class="fa-brands fa-android"></i>
+            <h3>Mod Menu APK</h3>
+            <p>
+              Cần gỡ game gốc. Menu nổi Tiếng Việt, đầy đủ tính năng. Antiban an
+              toàn.
+            </p>
+            <a href="#" class="btn-download" id="btn_dl_android" target="_blank"
+              ><i class="fa-solid fa-download"></i> Tải Ngay (APK)</a
+            >
+          </div>
+          <div class="glass-card">
+            <i class="fa-brands fa-apple"></i>
+            <h3>iOS Mod</h3>
+            <p>
+              Hỗ trợ cài trực tiếp qua Scarlet/Esign. Không cần Jailbreak máy.
+            </p>
+            <a href="#" class="btn-download" id="btn_dl_ios" target="_blank"
+              ><i class="fa-solid fa-download"></i> Tải Ngay (iOS)</a
+            >
+          </div>
+          <div class="glass-card">
+            <i class="fa-solid fa-file-code"></i>
+            <h3>Mod APK Song Song</h3>
+            <p>
+              Không cần gỡ game gốc. Menu nổi Tiếng Việt, đầy đủ tính năng. An
+              toàn 100%.
+            </p>
+            <a href="#" class="btn-download" id="btn_dl_clone" target="_blank"
+              ><i class="fa-solid fa-download"></i> Tải Ngay (Clone)</a
+            >
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <h2>Bảng <span>Giá Key</span></h2>
-                <p>Thuê Key Vip Kích Hoạt Full Tính Năng</p>
-            </div>
-            <div class="card-grid">
-                <div class="glass-card" style="border: 1px dashed rgba(255,255,255,0.3);">
-                    <div
-                        style="position: absolute; top:0; left:0; background:#333; color:#fff; padding:5px 15px; font-size:0.7rem; border-bottom-right-radius: 10px; font-weight: bold;">
-                        TEST</div>
-                    <h3>Key Free</h3>
-                    <div class="price-tag" id="price_free" style="color: #ddd;">Đang tải...</div>
-                    <ul style="list-style: none; margin-bottom: 20px; color: #aaa; font-size: 0.9rem;">
-                        <li>• Vượt link quảng cáo</li>
-                        <li>• Hạn dùng: 1 DAY</li>
-                        <li>• Đủ chức năng VIP</li>
-                    </ul>
-                    <a href="#" target="_blank" class="btn-key free" id="link_free"><i class="fa-solid fa-link"></i> Lấy
-                        Key Ngay</a>
-                </div>
-
-                <div class="glass-card">
-                    <h3>Gói Ngày</h3>
-                    <div class="price-tag" id="price_day">Đang tải...</div>
-                    <p>Test thử chức năng</p>
-                    <button class="btn-key" id="btn_buy_day"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</button>
-                </div>
-
-                <div class="glass-card">
-                    <h3>Gói Tuần</h3>
-                    <div class="price-tag" id="price_week">Đang tải...</div>
-                    <p>Trải nghiệm trọn vẹn 7 ngày, giá ưu đãi.</p>
-                    <button class="btn-key" id="btn_buy_week"><i class="fa-solid fa-cart-shopping"></i> Mua
-                        Ngay</button>
-                </div>
-
-                <div class="glass-card"
-                    style="border-color: var(--secondary); box-shadow: 0 0 15px rgba(255, 0, 85, 0.15);">
-                    <div
-                        style="position: absolute; top:0; right:0; background:var(--secondary); padding:5px 10px; font-weight:bold; font-size:0.8rem; color: #fff;">
-                        HOT</div>
-                    <h3>Gói Tháng</h3>
-                    <div class="price-tag" id="price_month" style="text-shadow: 0 0 10px var(--secondary);">Đang tải...
-                    </div>
-                    <p>Leo rank Thách Đấu</p>
-                    <button class="btn-key hot" id="btn_buy_month"><i class="fa-solid fa-fire"></i> Mua Ngay</button>
-                </div>
-
-                <div class="glass-card">
-                    <h3>Gói Mùa</h3>
-                    <div class="price-tag" id="price_season">Đang tải...</div>
-                    <p>Bảo hành reset mùa</p>
-                    <button class="btn-key" id="btn_buy_season"><i class="fa-solid fa-gem"></i> Mua Ngay</button>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Bảng <span>Giá Key</span></h2>
+          <p>Thuê Key Vip Kích Hoạt Full Tính Năng</p>
         </div>
+        <div class="card-grid" id="pricing-grid">
+          <div style="color: white; text-align: center; width: 100%">
+            🚀 Đang tải bảng giá...
+          </div>
+        </div>
+      </div>
     </section>
 
     <div id="paymentModal" class="modal-overlay">
-        <div class="modal-content glass-card">
-            <span class="close-modal" onclick="closePayment()">&times;</span>
-            <div class="modal-header">
-                <h3>Thanh Toán & Nhận Key</h3>
-                <p>Hệ thống duyệt tự động sau 1-5 phút</p>
-            </div>
-            <div class="modal-body">
-                <div class="qr-box">
-                    <img id="qr_img" src="" alt="QR Code" class="qr-code-img">
-                    <p class="scan-hint" id="scan_hint_text">Nội dung CK: <b id="pay_syntax_display"
-                            style="color:var(--primary)">...</b></p>
-                </div>
-                <div class="payment-info">
-                    <div id="step_pay">
-                        <div class="info-row"><span>Số tiền cần thanh toán:</span><span id="pay_price"
-                                class="highlight-price">0đ</span></div>
-                        <p style="color:#888; font-size:0.9rem; margin-bottom:15px;">Sau khi chuyển khoản xong, hãy nhập
-                            <b>Mã Giao Dịch</b> (số màu đỏ trong nội dung CK) vào bên dưới để lấy Key.
-                        </p>
-                    </div>
-                    <div class="check-key-box"
-                        style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; border:1px dashed #555;">
-                        <label style="display:block; color:#fff; margin-bottom:5px; font-size:0.9rem;">Nhập Mã Giao
-                            Dịch:</label>
-                        <div style="display:flex; gap:10px;">
-                            <input type="text" id="input_trans_code" placeholder="Ví dụ: 1234"
-                                style="width:100%; padding:10px; border-radius:5px; border:1px solid #444; background:#000; color:#fff; font-weight:bold; text-align:center;">
-                            <button onclick="checkOrder()" class="btn-key"
-                                style="margin:0; width:auto; padding:0 15px;"><i
-                                    class="fa-solid fa-search"></i></button>
-                        </div>
-                        <div id="result_area" style="margin-top:15px; text-align:center; display:none;">
-                            <span style="color:#aaa; font-size:0.8rem;">Trạng thái:</span>
-                            <div id="status_text" style="font-weight:bold; margin-bottom:5px;">Checking...</div>
-                            <div id="key_display_box" style="display:none;">
-                                <div style="background:#222; padding:10px; border:1px solid var(--primary); color:var(--primary); font-family:monospace; font-size:1.2rem; word-break:break-all;"
-                                    id="final_key">KEY-WILL-APPEAR-HERE</div>
-                                <button onclick="copyKey()" class="btn-download"
-                                    style="margin-top:10px; font-size:0.8rem; padding:8px;"><i
-                                        class="fa-regular fa-copy"></i> Copy Key</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-actions" style="margin-top: 15px; text-align: center;">
-                        <a href="#" id="link_zalo_support" target="_blank"
-                            style="color:#888; font-size:0.8rem; text-decoration:none;"><i
-                                class="fa-solid fa-headset"></i> Gặp lỗi? Liên hệ Admin</a>
-                    </div>
-                </div>
-            </div>
+      <div class="modal-content glass-card">
+        <span class="close-modal" onclick="closePayment()">&times;</span>
+        <div class="modal-header">
+          <h3>Thanh Toán & Nhận Key</h3>
+          <p>Hệ thống duyệt tự động sau 1-5 phút</p>
         </div>
+        <div class="modal-body">
+          <div class="qr-box">
+            <img id="qr_img" src="" alt="QR Code" class="qr-code-img" />
+            <p class="scan-hint" id="scan_hint_text">
+              Nội dung CK:
+              <b id="pay_syntax_display" style="color: var(--primary)">...</b>
+            </p>
+          </div>
+          <div class="payment-info">
+            <div id="step_pay">
+              <div class="info-row">
+                <span>Số tiền cần thanh toán:</span
+                ><span id="pay_price" class="highlight-price">0đ</span>
+              </div>
+              <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px">
+                Sau khi chuyển khoản xong, hãy nhập <b>Mã Giao Dịch</b> (số màu
+                đỏ trong nội dung CK) vào bên dưới để lấy Key.
+              </p>
+            </div>
+            <div
+              class="check-key-box"
+              style="
+                background: rgba(255, 255, 255, 0.05);
+                padding: 15px;
+                border-radius: 10px;
+                border: 1px dashed #555;
+              "
+            >
+              <label
+                style="
+                  display: block;
+                  color: #fff;
+                  margin-bottom: 5px;
+                  font-size: 0.9rem;
+                "
+                >Nhập Mã Giao Dịch:</label
+              >
+              <div style="display: flex; gap: 10px">
+                <input
+                  type="text"
+                  id="input_trans_code"
+                  placeholder="Ví dụ: 1234"
+                  style="
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid #444;
+                    background: #000;
+                    color: #fff;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                />
+                <button
+                  onclick="checkOrder()"
+                  class="btn-key"
+                  style="margin: 0; width: auto; padding: 0 15px"
+                >
+                  <i class="fa-solid fa-search"></i>
+                </button>
+              </div>
+              <div
+                id="result_area"
+                style="margin-top: 15px; text-align: center; display: none"
+              >
+                <span style="color: #aaa; font-size: 0.8rem">Trạng thái:</span>
+                <div
+                  id="status_text"
+                  style="font-weight: bold; margin-bottom: 5px"
+                >
+                  Checking...
+                </div>
+                <div id="key_display_box" style="display: none">
+                  <div
+                    style="
+                      background: #222;
+                      padding: 10px;
+                      border: 1px solid var(--primary);
+                      color: var(--primary);
+                      font-family: monospace;
+                      font-size: 1.2rem;
+                      word-break: break-all;
+                    "
+                    id="final_key"
+                  >
+                    KEY-WILL-APPEAR-HERE
+                  </div>
+                  <button
+                    onclick="copyKey()"
+                    class="btn-download"
+                    style="margin-top: 10px; font-size: 0.8rem; padding: 8px"
+                  >
+                    <i class="fa-regular fa-copy"></i> Copy Key
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="modal-actions"
+              style="margin-top: 15px; text-align: center"
+            >
+              <a
+                href="#"
+                id="link_zalo_support"
+                target="_blank"
+                style="color: #888; font-size: 0.8rem; text-decoration: none"
+                ><i class="fa-solid fa-headset"></i> Gặp lỗi? Liên hệ Admin</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <section id="community" style="padding-top: 50px;">
-        <div class="container">
-            <div class="section-header">
-                <h2>Hỗ Trợ <span>Trực Tuyến</span></h2>
-                <p>Tham gia nhóm kín để nhận thông báo cập nhật & Fix lỗi 24/7</p>
-            </div>
-            <div class="social-grid">
-                <a href="#" target="_blank" class="social-card zalo" id="link_zalo">
-                    <div class="social-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png"
-                            class="custom-zalo" alt="Zalo">
-                    </div>
-                    <div class="social-info">
-                        <h3>Nhóm Zalo Box Chat</h3>
-                        <p>Trao đổi, share config, support 1-1</p>
-                    </div>
-                    <div class="social-action"><span>THAM GIA</span> <i class="fa-solid fa-arrow-right"></i></div>
-                </a>
-                <a href="#" target="_blank" class="social-card tele" id="link_tele">
-                    <div class="social-icon"><i class="fa-brands fa-telegram"></i></div>
-                    <div class="social-info">
-                        <h3>Kênh ZALO VIP</h3>
-                        <p>Thông báo update, tải file không quảng cáo</p>
-                    </div>
-                    <div class="social-action"><span>THEO DÕI</span> <i class="fa-solid fa-arrow-right"></i></div>
-                </a>
-            </div>
+    <section id="community" style="padding-top: 50px">
+      <div class="container">
+        <div class="section-header">
+          <h2>Hỗ Trợ <span>Trực Tuyến</span></h2>
+          <p>Tham gia nhóm kín để nhận thông báo cập nhật & Fix lỗi 24/7</p>
         </div>
+        <div class="social-grid">
+          <a href="#" target="_blank" class="social-card zalo" id="link_zalo">
+            <div class="social-icon">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png"
+                class="custom-zalo"
+                alt="Zalo"
+              />
+            </div>
+            <div class="social-info">
+              <h3>Nhóm Zalo Box Chat</h3>
+              <p>Trao đổi, share config, support 1-1</p>
+            </div>
+            <div class="social-action">
+              <span>THAM GIA</span> <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </a>
+          <a href="#" target="_blank" class="social-card tele" id="link_tele">
+            <div class="social-icon"><i class="fa-brands fa-telegram"></i></div>
+            <div class="social-info">
+              <h3>Kênh ZALO VIP</h3>
+              <p>Thông báo update, tải file không quảng cáo</p>
+            </div>
+            <div class="social-action">
+              <span>THEO DÕI</span> <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </a>
+        </div>
+      </div>
     </section>
 
     <footer>
-        <div class="container">
-            <p style="opacity: 0.7;">© 2026 LQMB IT DEV</p>
-        </div>
+      <div class="container">
+        <p style="opacity: 0.7">© 2026 LQMB IT DEV</p>
+      </div>
     </footer>
     <div id="toast" class="toast">Đã sao chép Key!</div>
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>
-
-

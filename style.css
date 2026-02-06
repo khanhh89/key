@@ -387,10 +387,6 @@
      border-radius: 50%;
      box-shadow: 0 0 10px var(--primary);
  }
-
- /* =================================================================
-   6. NÚT BẤM (BUTTONS) - HERO SECTION
-   ================================================================= */
  .btn-group {
      display: flex;
      gap: 20px;
@@ -496,7 +492,22 @@
      font-size: 1rem;
      margin-bottom: 30px;
  }
+.glass-card { position: relative; overflow: hidden; }
 
+.badge-test {
+    position: absolute; top:0; left:0; background:#333; color:#fff; 
+    padding:5px 15px; font-size:0.7rem; border-bottom-right-radius: 10px; font-weight: bold;
+}
+
+.badge-hot {
+    position: absolute; top:0; right:0; background:var(--secondary); 
+    padding:5px 10px; font-weight:bold; font-size:0.8rem; color: #fff;
+}
+
+.hot-border {
+    border-color: var(--secondary) !important; 
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.15);
+}
  .price-tag {
      font-family: 'Orbitron', sans-serif;
      font-size: 3.5rem;

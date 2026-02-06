@@ -1,4 +1,4 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbxJHUBhK9x4zsyoAafACZrViWKjbnqELzndhdA8uqmtRdlPNnx4tQpDPyd09q2xt0oT7A/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyA5tJvs9UpaNI8Jj-izAlcVZF8T7JsfBzoAIlbbDq4I92VI11fBgNZySlUi8aXyZ6SOA/exec';
 
 // THÔNG TIN NGÂN HÀNG
 const MY_BANK = 'MB';
@@ -7,69 +7,84 @@ const MY_NAME = 'DAO XUAN KHANH';
 
 let globalDB = {};
 
-// --- 1. TẢI DỮ LIỆU & CẤU HÌNH ---
 async function fetchGameData() {
     try {
-        console.log("🚀 Đang tải dữ liệu...");
         const response = await fetch(API_URL);
         const result = await response.json();
+        globalDB = (result.status === 'success' && result.data) ? result.data : result;
 
-        // Bóc tách dữ liệu từ thuộc tính .data của API mới
-        if (result.status === 'success' && result.data) {
-            globalDB = result.data;
-        } else {
-            globalDB = result; 
-        }
+        console.log("Dữ liệu nhận được:", globalDB);
 
-        console.log("Dữ liệu thực tế:", globalDB);
+        // --- TỰ ĐỘNG RENDER BẢNG GIÁ ---
+        renderPricing();
 
-        // Hàm cập nhật nội dung văn bản (Giá tiền)
-        const updateText = (id, key) => { 
-            const el = document.getElementById(id); 
-            if (el && globalDB[key]) el.innerHTML = globalDB[key]; 
-        };
-
-        // Hàm cập nhật đường dẫn (Link tải)
+        // Cập nhật các link tải bên ngoài (Android, iOS...)
         const updateLink = (id, key) => { 
             const el = document.getElementById(id); 
             if (el && globalDB[key]) el.href = globalDB[key]; 
         };
-
-        // Cập nhật Link và Giá
-        updateLink('link_free', 'link_free');
         updateLink('btn_dl_android', 'link_android');
         updateLink('btn_dl_ios', 'link_ios');
-        updateLink('btn_dl_clone', 'link_clone');
-
-        updateText('price_free', 'price_free');
-        updateText('price_day', 'price_day');
-        updateText('price_week', 'price_week');
-        updateText('price_month', 'price_month');
-        updateText('price_season', 'price_season');
-
-        // Cập nhật hỗ trợ và nhạc
-        if (globalDB['link_zalo']) {
-            const supportLink = document.getElementById('link_zalo_support');
-            if (supportLink) supportLink.href = globalDB['link_zalo'];
-        }
-
-        if (globalDB['link_music']) {
-            const audio = document.getElementById('bgMusic');
-            if (audio) {
-                audio.src = globalDB['link_music'];
-                autoPlayMusic(audio);
-            }
-        }
-
-        // --- SỬA ĐỔI CHÍNH: GẮN SỰ KIỆN NÚT MUA TƯƠNG ỨNG ---
-        setupBuyButton('btn_buy_day', 'Gói Ngày', 'price_day');
-        setupBuyButton('btn_buy_week', 'Gói Tuần', 'price_week');
-        setupBuyButton('btn_buy_month', 'Gói Tháng', 'price_month');
-        setupBuyButton('btn_buy_season', 'Gói Mùa', 'price_season');
 
     } catch (error) {
         console.error('🔥 Lỗi API:', error);
+        document.getElementById('pricing-grid').innerHTML = "<p style='color:red'>Lỗi tải dữ liệu!</p>";
     }
+}
+
+function renderPricing() {
+    const grid = document.getElementById('pricing-grid');
+    if (!grid || !globalDB) return;
+
+    grid.innerHTML = ''; // Xóa thông báo đang tải
+
+    // 1. Tìm tất cả các key bắt đầu bằng "price_" trong dữ liệu API
+    const priceKeys = Object.keys(globalDB).filter(key => key.startsWith('price_'));
+
+    priceKeys.forEach(key => {
+        const type = key.replace('price_', ''); // Lấy tên gói (ví dụ: day, week, year)
+        const price = globalDB[key];
+        
+        // Tự động định dạng tên hiển thị (viết hoa chữ đầu)
+        const displayName = type === 'free' ? 'Key Free' : 'Gói ' + type.charAt(0).toUpperCase() + type.slice(1);
+        
+        // Thiết lập icon và mô tả mặc định dựa trên loại gói
+        let icon = 'fa-cart-shopping';
+        let desc = 'Sử dụng đầy đủ tính năng';
+        let isHot = false;
+
+        if (type === 'free') { icon = 'fa-link'; desc = 'Vượt link quảng cáo'; }
+        if (type === 'month') { icon = 'fa-fire'; desc = 'Leo rank Thách Đấu'; isHot = true; }
+        if (type === 'season') { icon = 'fa-gem'; desc = 'Bảo hành reset mùa'; }
+        if (type === 'year') { icon = 'fa-crown'; desc = 'Sử dụng lâu dài, tiết kiệm'; }
+
+        // 2. Tạo thẻ HTML tự động
+        const card = document.createElement('div');
+        card.className = `glass-card ${isHot ? 'hot-border' : ''}`;
+        if (type === 'free') card.style.border = "1px dashed rgba(255,255,255,0.3)";
+
+        card.innerHTML = `
+            ${type === 'free' ? '<div class="badge-test">TEST</div>' : ''}
+            ${isHot ? '<div class="badge-hot">HOT</div>' : ''}
+            <h3>${displayName}</h3>
+            <div class="price-tag" id="${key}">${price}</div>
+            <p>${desc}</p>
+            ${type === 'free' 
+                ? `<a href="${globalDB['link_free'] || '#'}" target="_blank" class="btn-key free"><i class="fa-solid ${icon}"></i> Lấy Key</a>`
+                : `<button class="btn-key ${isHot ? 'hot' : ''}" onclick="handleBuyClick('${displayName}', '${key}')">
+                    <i class="fa-solid ${icon}"></i> Mua Ngay
+                   </button>`
+            }
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// Hàm xử lý riêng khi bấm nút Mua (được gọi từ HTML sinh ra ở trên)
+function handleBuyClick(packageName, priceKey) {
+    let rawPrice = document.getElementById(priceKey).innerText;
+    let cleanPrice = parsePrice(rawPrice);
+    openPayment(packageName, cleanPrice);
 }
 
 // --- HÀM XỬ LÝ AUTOPLAY THÔNG MINH ---
@@ -128,37 +143,62 @@ function closePayment() { document.getElementById('paymentModal').style.display 
 
 async function checkOrder() {
     const codeInput = document.getElementById('input_trans_code').value.trim();
-    const resultArea = document.getElementById('result_area');
     const statusText = document.getElementById('status_text');
-    const keyBox = document.getElementById('key_display_box');
-    const finalKey = document.getElementById('final_key');
+    const resultArea = document.getElementById('result_area'); // Vùng chứa kết quả
+    const keyBox = document.getElementById('key_display_box');   // Khung chứa mã Key
+    const finalKeyEl = document.getElementById('final_key');     // Thẻ chứa text Key
 
-    if (!codeInput) { alert("Vui lòng nhập Mã Giao Dịch!"); return; }
-
-    resultArea.style.display = 'block';
-    statusText.innerText = "🔄 Đang kết nối máy chủ...";
-    statusText.style.color = "#fff";
-    keyBox.style.display = 'none';
-
+    if (!codeInput) { 
+        alert("Vui lòng nhập Mã Giao Dịch!"); 
+        return; 
+    }
+    resultArea.style.display = 'block'; 
+    keyBox.style.display = 'none'; // Ẩn ô Key đi nếu trước đó đang hiện
+    statusText.style.color = '#aaa';
+    statusText.innerText = "🔄 Đang đối soát mã: " + codeInput;
+    
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch(`${API_URL}?action=get_all_keys`);
         const result = await response.json();
-        const data = result.data || result; // Hỗ trợ cả 2 định dạng API
-        const myKey = data[codeInput];
+        const allKeys = (result.status === 'success') ? result.data : [];
+        const foundData = allKeys.find(item => 
+            item.owner && item.owner.toString().trim() === codeInput.toString().trim()
+        );
 
-        if (myKey) {
+        if (foundData) {
+            console.log("✅ Tìm thấy Key:", foundData.key);
+            
+            // 1. Cập nhật trạng thái
+            statusText.style.color = '#00ff00';
             statusText.innerHTML = "✅ Giao dịch thành công!";
-            statusText.style.color = "#0f0";
-            finalKey.innerText = myKey;
-            keyBox.style.display = 'block';
+            
+            // 2. Điền Key và hiện khung chứa Key
+            finalKeyEl.innerText = foundData.key;
+            keyBox.style.display = 'block'; 
+            
+            // 3. Ẩn phần QR và các hướng dẫn thừa để tập trung vào Key
+            const qrBox = document.querySelector('.qr-box');
+            const stepPay = document.getElementById('step_pay');
+            if (qrBox) qrBox.style.display = 'none';
+            if (stepPay) stepPay.style.display = 'none';
+
+            // Cuộn xuống để người dùng thấy Key
+            keyBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
         } else {
-            statusText.innerHTML = "⏳ Đang chờ duyệt...<br><small>(Vui lòng đợi hệ thống trả về, thử lại sau 2 phút)</small>";
-            statusText.style.color = "orange";
+            statusText.style.color = '#ff9800';
+            statusText.innerHTML = "⏳ Chưa tìm thấy giao dịch...<br><small>Đợi 1-2 phút để hệ thống cập nhật nhé!</small>";
         }
     } catch (e) {
-        statusText.innerText = "❌ Lỗi kết nối. Vui lòng thử lại.";
-        statusText.style.color = "red";
+        console.error("Lỗi:", e);
+        statusText.style.color = '#ff4444';
+        statusText.innerText = "❌ Lỗi kết nối máy chủ!";
     }
+}
+
+// Hàm bổ trợ để tạo hiệu ứng khi tìm thấy key (tùy chọn)
+function confettiEffect() {
+    console.log("Chúc mừng! Bạn đã nhận được key.");
 }
 
 function copyKey() {
@@ -173,9 +213,13 @@ function copyKey() {
 
 function parsePrice(str) {
     if (!str) return 0;
-    let num = str.replace(/[^0-9]/g, '');
-    if (str.toLowerCase().includes('k')) num = parseInt(num) * 1000;
-    return parseInt(num);
+    let cleanStr = str.toString().toLowerCase().replace(/[^0-9.km]/g, '');
+    let num = parseFloat(cleanStr);
+
+    if (cleanStr.includes('k')) num *= 1000;
+    if (cleanStr.includes('m')) num *= 1000000; // Xử lý 1000M hoặc 1M
+
+    return Math.floor(num);
 }
 
 function formatCurrency(num) {
